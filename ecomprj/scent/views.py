@@ -4,3 +4,6 @@ from django.http import HttpResponse
 # Create your views here.
 def index(request):
     return render(request, 'core/index.html')
+
+def product(request):
+    return render(request, 'core/product.html')
