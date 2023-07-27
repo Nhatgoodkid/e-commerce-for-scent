@@ -1,3 +1,4 @@
+
 :root {
     --white: #fff;
     --gold: #e0b973;
@@ -5,7 +6,7 @@
     --blue: #2a4c8b;
     --light-blue: #4169a4;
     --button-blue: #009df5;
-    --bg-nav: rgb(108, 170, 220);
+    --bg-nav: #12362c;
     --bg-dropdown: rgba(9, 86, 149, 0.5);
     --grey: #b7bfbf;
     --light-grey: #d9d9d9;
@@ -18,17 +19,17 @@
 
 @font-face {
     font-family: Fenix;
-    src: url(/fonts/Fenix/Fenix-Regular.ttf);
+    src: url(/static/fonts/Fenix/Fenix-Regular.ttf);
 }
 
 @font-face {
     font-family: Finger_Paint;
-    src: url(/fonts/Finger_Paint/FingerPaint-Regular.ttf);
+    src: url(/static/fonts/Finger_Paint/FingerPaint-Regular.ttf);
 }
 
 @font-face {
     font-family: Montserrat;
-    src: url(/fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+    src: url(/static/fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
 }
 
 html {

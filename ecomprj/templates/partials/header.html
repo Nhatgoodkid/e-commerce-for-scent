@@ -1,25 +1,27 @@
+{% extends 'layout/main.html' %}
+{% block header %}
 <header>
     <div class="navigation animate__animated animate__fadeInDown" id="navigation">
         <nav class="navbar row d-flex p-0">
             <a class="banner col-lg-5 col-md-3 d-md-flex d-none text-decoration-none" href="/">
                 <div class="logo ml-lg-5">
                     <div class="contentLogo">
-                        <span class="logoText">S E R E N A</span><br>
-                        <span class="logoText subLogoText">H o t e l s</span>
+                        <span class="logoText">N O T E</span><br>
+                        <span class="logoText subLogoText">The scent lab</span>
                     </div>
                 </div>
             </a>
             <div class="col-lg-7 col-md-9 d-md-flex d-none justify-content-end">
                 <ul class="nav text-light d-flex backgroundColorToggle">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="/">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Offers</a>
+                        <a class="nav-link" href="#">Workshops</a>
                     </li>
                     <li class="nav-item" id="wrapDropdownBooking">
                         <div class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button"
-                            aria-expanded="false">Booking
+                            aria-expanded="false">Gifts
                         </div>
                         <ul class="dropdown-menu fs-4 pt-3 pb-4" id="dropdownBooking" aria-labelledby="dropdownBooking">
                             <li class="mt-1"><a class="dropdown-item" href="/booking">Rooms & Suites</a></li>
@@ -32,7 +34,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link p-0" href="#">
-                            <div class="dropdown user_dropdown">
+                            <!-- <div class="dropdown user_dropdown">
                                 <span class="signIn signed-in">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                                         class="bi bi-person-fill" viewBox="0 0 16 16">
@@ -64,7 +66,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> -->
                         </a>
                         <a class="nav-link" href="/user/sign-in"><span class="signIn">Sign in</span></a>
                     </li>
@@ -78,6 +80,5 @@
         </nav>
     </div>
 </header>
-{% block content %}
+{% endblock header %}
 
-{% endblock %}
