@@ -7,8 +7,5 @@ def index(request):
 
 def product(request):
 
-    new_person = Product(name="John", price=30)
-
-    # Lưu đối tượng vào cơ sở dữ liệu MongoDB
-    new_person.save()
-    return render(request, 'core/product.html')
+    product = Product.objects.all()
+    return render(request, 'core/product.html', {'product':product})
