@@ -8,4 +8,9 @@ def index(request):
 def product(request):
 
     product = Product.objects.all()
-    return render(request, 'core/product.html', {'product':product})
+    kind = Product.objects.distinct('kind')
+    sorted_kind = sorted(kind, key=lambda x: x.lower())
+    return render(request, 'core/product.html', {
+        'product':product,
+        'kind': sorted_kind,
+        })

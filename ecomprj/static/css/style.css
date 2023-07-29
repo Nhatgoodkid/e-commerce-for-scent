@@ -1032,6 +1032,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
     opacity: 0;
 }
 
+.filter-title{
+    font-size: 2rem;
+    font-family: Fenix;
+}
 
 .starRates .list-group-item {
     font-size: 22px;
