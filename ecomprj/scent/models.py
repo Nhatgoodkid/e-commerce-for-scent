@@ -10,3 +10,4 @@ class Product(Document):
     kind = StringField()
     description = StringField()
     image_url = StringField()
+    slug = StringField()

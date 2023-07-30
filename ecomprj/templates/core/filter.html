@@ -22,7 +22,7 @@
                     <div class="form-check">
                         <input class="form-check-input" name="product-category" type="checkbox"
                             id="product-category">
-                        <label class="form-check-label" for="product-category">
+                        <label class="form-check-label" for="product-category-{{ forloop.counter }}">
                             {{product}}
                         </label>
                     </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="greyLine"></div>
                 <div class="subFilter-item subFilter-item3">
-                    <p>Kind room:</p>
+                    <p class="filter-title">Kind of Scent:</p>
                     <div class="form-check">
                         <input class="form-check-input" name="kind" type="checkbox" value="Normal"
                             id="serviceRoom1">

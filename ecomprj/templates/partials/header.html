@@ -1,4 +1,4 @@
-{% extends 'layout/main.html' %}
+{% extends 'layout/base.html' %}
 {% block header %}
 <header>
     <div class="navigation animate__animated animate__fadeInDown" id="navigation">
@@ -80,5 +80,68 @@
         </nav>
     </div>
 </header>
-{% endblock header %}
 
+<div class="modal navigation-sidebar animate__animated animate__slideInLeft" id="navigation-sidebar">
+    <div class="modal-header">
+        <div class="modal-title">
+
+        </div>
+        <button type="button" id="btn-close-sidebar" class="btn-close fs-1 mt-3 mr-3" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="sidebar">
+            <nav class="nav flex-column text-center">
+                <a class="nav-link py-3 active" href="/">Home</a>
+                <a class="nav-link py-3" href="#">Offers</a>
+                <a href="#" class="nav-link py-3 dropdown-toggle" data-bs-toggle="collapse"
+                    data-bs-target="#collapseBooking" aria-expanded="false" aria-controls="collapseBooking">
+                    Booking
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <div class="card card-body">
+                        <ul class="list-group-item mb-0">
+                            <li class="list-group-item">
+                                <a class="nav-link" href="/booking">Rooms & Suites</a>
+                            </li>
+                            <hr>
+                            <li class="list-group-item">
+                                <a class="nav-link" href="/user">History</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <a class="nav-link py-3" href="#">Contact-us</a>
+                <a href="#" class="nav-link py-3" data-bs-toggle="collapse" data-bs-target="#collapseUser"
+                    aria-expanded="false" aria-controls="collapseUser">
+                </a>
+                <div class="collapse" id="collapseUser">
+                    <div class="card card-body">
+                        <ul class="list-group-item mb-0">
+                            <li class="list-group-item">
+                                <a class="nav-link" href="/user">Profile</a>
+                            </li>
+                            <hr>
+                            <li class="list-group-item">
+                                <a href="/user/logout" class="nav-link btnSignOut" id="signOut">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                            <path fill-rule="evenodd"
+                                                d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                        </svg>
+                                    </span>
+                                    &nbsp; Sign out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <a class="nav-link py-3" href="/user/sign-in">Sign in</a>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock header %}

@@ -1033,8 +1033,14 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .filter-title{
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: 900;
     font-family: Fenix;
+}
+
+.form-check-label{
+    font-size: 1.2rem;
+    font-family: Montserrat;
 }
 
 .starRates .list-group-item {
