@@ -1,0 +1,49 @@
+{% extends "layout/admin_base.html" %}
+{% load static %}
+{% block content %}
+<div class="background_table">
+    <div class="dashboard_box">
+        <div class="dashboard_box-item">
+            <h1 class="dashboard_greet">WELCOME TO MANAGEMENT </h1>
+            <div class="dashboard_icon">&#128512;</div>
+        </div>
+        <div class="dashboard_box-item">
+            <div class="dashboard_date" id="dashboardDate"></div>
+            <div class="dashboard_clock" id="dashboardClock"></div>
+        </div>
+        <div class="dashboard_box-item">
+            <img class="img" src="{% static '/images/pie-chart.svg' %}" alt="pie-chart">
+        </div>
+        <div class="dashboard_box-item dashboard-statistical">
+            <form class="form_dashboard" method="GET" action="/admin">
+            <label for="period">Period:</label>
+
+            <button class="form_dashboard-btn btn btn-primary" type="submit">Get Revenue</button>
+        </form>
+
+        <div class="dashboard_content">
+            <h2>Total Revenue</h2>
+            <p>Period: {{period}}</p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Period</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{this.period}}</td>
+                        <td>{{this.totalRevenue}} $</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>No revenue data available</p>
+        </div>
+        </div>
+
+
+        <div id="calendar"></div>
+    </div>
+</div>
+{% endblock content %}

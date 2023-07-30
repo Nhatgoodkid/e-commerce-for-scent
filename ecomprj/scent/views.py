@@ -14,3 +14,6 @@ def product(request):
         'product':product,
         'kind': sorted_kind,
         })
+
+def admin(request):
+    return render(request, 'admin_core/dashboard.html')
