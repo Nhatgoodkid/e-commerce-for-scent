@@ -270,38 +270,30 @@ $(document).ready(function () {
             });
     });
 
-    //------EDIT ROOM ADMIN-----------
+    //------EDIT PRODUCT ADMIN-----------
     $('#editModal').on('show.bs.modal', function (event) {
         var editForm = document.forms['editForm'];
         var button = $(event.relatedTarget); // Button that triggered the modal
         var id = button.data('id');
-        var nameRoom = button.data('name'); // Extract info from data-* attributes
+        var name = button.data('name'); // Extract info from data-* attributes
         var kind = button.data('kind');
-        var rating = button.data('rating');
-        var location = button.data('location');
-        var adult = button.data('adult');
-        var children = button.data('children');
-        var bedroom = button.data('bedroom');
-        var bathroom = button.data('bathroom');
+        var size = button.data('size');
+        var quantity = button.data('quantity');
         var price = button.data('price');
         var image = button.data('image');
         var description = button.data('description');
         //Pass data to edit field
-        $('#editnameRoom').val(nameRoom);
+        $('#editname').val(name);
         $('#editkind').val(kind);
-        $('#editrating').val(rating);
-        $('#editlocation').val(location);
-        $('#editadult').val(adult);
-        $('#editchildren').val(children);
-        $('#editbedroom').val(bedroom);
-        $('#editbathroom').val(bathroom);
+        $('#editsize').val(size);
+        $('#editquantity').val(quantity);
         $('#editprice').val(price);
         $('#editimage').val(image);
         $('#editdescription').val(description);
-        editForm.action = `/admin/edit/room/${id}?_method=PUT`;
+        editForm.action = `/adm/edit/product/${id}`;
     });
 
-    //------DELETE ROOM ADMIN-----------
+    //------DELETE PRODUCT ADMIN-----------
     $('#deleteModal').on('show.bs.modal', function (event) {
         var deleteForm = document.forms['deleteForm'];
         var button = $(event.relatedTarget); // Button that triggered the modal
@@ -309,7 +301,7 @@ $(document).ready(function () {
         var nameRoom = button.data('name'); // Extract info from data-* attributes
         //Pass data to edit field
         $('#roomName').text(nameRoom);
-        deleteForm.action = `/admin/delete/room/${id}?_method=DELETE`;
+        deleteForm.action = `/adm/delete/product/${id}`;
     });
 
     //------EDIT RESERVATION ADMIN-----------
