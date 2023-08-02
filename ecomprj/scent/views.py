@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
+from django.contrib import messages
 from django.http import HttpResponse
 from .models import Product, User
 import random
@@ -21,6 +22,37 @@ def generate_unique_slug(name, max_attempts=10):
 def index(request):
     return render(request, 'core/index.html')
 
+# [GET] /signup
+
+def signup(request):
+    if request.method == 'POST':
+        # Get data from the form
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        city_address = request.POST.get('city_address')
+        district_address = request.POST.get('district_address')
+        street_address = request.POST.get('street_address')
+        password = request.POST.get('password')
+        confirm_pwd = request.POST.get('confirmPassword')
+        if password != confirm_pwd:
+            messages.error(request, 'Mật khẩu xác nhận không trùng khớp.')
+            return render(request, 'core/signup.html')
+        user = User(
+            firstname = firstname,
+            lastname = lastname,
+            username = username,
+            phone = phone,
+            email = email,
+            city_address = city_address,
+            district_address = district_address,
+            street_address = street_address,
+            password = password,
+        )
+        user.save()
+    return render(request, 'core/signup.html')
 # [GET] /signin
 def signin(request):
     return render(request, 'core/signin.html')

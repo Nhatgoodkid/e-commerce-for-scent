@@ -1,0 +1,68 @@
+{% extends 'partials/header.html' %}
+{% load static %}
+{% block content %}
+<div class="background_frame_2nd" style="background-color: var(--light-blue)">
+    <div class="color_background">
+        <h1 class="title_function">SIGN UP</h1>
+    </div>
+    <div class="main_signIn text-dark">
+        <div class="d-flex">
+            <div class="form_signIn form_signUp">
+                <div class="wrapper_form wrapper_formSignUp">
+                    <div class="d-flex align-items-center input-group mb-4">
+                        {% csrf_token %}
+                        <label for="firstName">First name:</label>
+                        <input type="text" id="firstname" name="firstname" class="inputSignup firstName form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="fullName">Last name:</label>
+                        <input type="text" id="lastname" name="lastname" class="inputSignup fullName form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="email">Username:</label>
+                        <input type="text" id="username" name="username" class="inputSignup usernameSignup form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="phone">Phone:</label>
+                        <input type="text" id="phone" name="phone" class="inputSignup phone form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="inputSignup emailSignup form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="email">Province/City:</label>
+                        <input type="email" id="city_address" name="city_address" class="inputSignup emailSignup form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="email">District:</label>
+                        <input type="email" id="district_address" name="district_address" class="inputSignup emailSignup form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="email">Street Address:</label>
+                        <input type="email" id="street_address" name="street_address" class="inputSignup emailSignup form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="pwdSignUp">Password:</label>
+                        <input type="password" id="password" name="password" class="inputSignup pwdSignup form-control rounded" value="" >
+                    </div>
+                    <div class="d-flex align-items-center input-group mb-4">
+                        <label for="pwdSignUp">Password <br> again:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="inputSignup pwdSignupAgain form-control rounded"
+                            value="">
+                    </div>
+                    
+                    <div class="btnSignUp btnSignUpColor btn" id="btn-signUp"> SIGN UP </div>
+                    <a href="/signin" class="btnSignUp btn btn-secondary">Turn back to SIGN IN...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="flashMessage-danger" class="notify alert alert-danger alert-dismissible animate__animated animate__fadeInRight fade">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+<div id="flashMessage-success" class="notify alert alert-success alert-dismissible animate__animated animate__fadeInRight fade">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+{% endblock content %}

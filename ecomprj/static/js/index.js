@@ -507,15 +507,24 @@ $(document).ready(function () {
     // ---------------------------
     $('#btn-signUp').click(function (e) {
         e.preventDefault();
+        const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
             type: 'POST',
-            url: '/user/sign-up',
+            url: '/signup',
             data: {
-                name: $('#name').val(),
+                firstname: $('#firstname').val(),
+                lastname: $('#lastname').val(),
+                username: $('#username').val(),
+                city_address: $('#city_address').val(),
+                district_address: $('#district_address').val(),
+                street_address: $('#street_address').val(),
                 phone: $('#phone').val(),
                 email: $('#email').val(),
                 password: $('#password').val(),
                 confirmPassword: $('#confirmPassword').val(),
+            },
+            headers: {
+                "X-CSRFToken": csrfToken,
             },
             success: function (response) {
                 if (response.err) {
@@ -532,7 +541,7 @@ $(document).ready(function () {
                     .delay(2000)
                     .fadeOut();
                 setTimeout(() => {
-                    window.location.replace('/user/sign-in');
+                    window.location.replace('/signin');
                 }, 2000);
             },
         });

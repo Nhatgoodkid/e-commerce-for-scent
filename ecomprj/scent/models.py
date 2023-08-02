@@ -29,3 +29,4 @@ class User(Document):
     street_address = StringField()
     city_address = StringField()
     district_address = StringField()
+    password = StringField()
