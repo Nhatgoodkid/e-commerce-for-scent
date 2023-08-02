@@ -17,35 +17,24 @@ $('#close_controller_person').click(function (e) {
 });
 
 // --------------------- Quantify People
-var adult = 1;
-var child = 0;
-function upQuantify(kind) {
-    if (kind == 'Adult') {
-        $('#quantify' + kind).val(++adult);
-        $('#show' + kind).html(adult);
-    } else {
-        $('#quantify' + kind).val(++child);
-        $('#show' + kind).html(child);
-    }
-}
-function downQuantify(kind) {
-    if (kind == 'Adult') {
-        if (adult <= 0) {
-            $('#quantify' + kind).val(0);
-            $('#show' + kind).html(adult);
-        } else {
-            $('#quantify' + kind).val(--adult);
-            $('#show' + kind).html(adult);
-        }
-    } else {
-        if (child <= 0) {
-            $('#quantify' + kind).val(0);
-            $('#show' + kind).html(child);
-        } else {
-            $('#quantify' + kind).val(--child);
-            $('#show' + kind).html(child);
+
+// Function to increment/decrement the value in "controller_person_input" and "showQuantity"
+function updateQuantify(kind, value) {
+    const showQuantityInput = document.getElementById('showQuantity');
+    const quantifyQuantityInput = document.getElementById('quantifyQuantity');
+    quantifyQuantityInput.value = showQuantityInput.value;
+    if (kind === 'up') {
+        const currentValue = parseInt(showQuantityInput.value, 10);
+        showQuantityInput.value = currentValue + value;
+        quantifyQuantityInput.value = currentValue + value;
+    } else if (kind === 'down') {
+        const currentValue = parseInt(showQuantityInput.value, 10);
+        if (currentValue > 1) {
+            showQuantityInput.value = currentValue - value;
+            quantifyQuantityInput.value = currentValue - value;
         }
     }
+
 }
 
 function priceBarSetting() {
@@ -150,78 +139,8 @@ $(document).ready(function () {
 
 
     // ---SEARCH ALL FIELD OF ROOM MODEL---//
-    $('#search-form').on('submit', function (event) {
-        event.preventDefault();
-        const adult = $('#quantifyAdult').val();
-        const children = $('#quantifyChildren').val();
-        const dateFrom = $('#dateFrom').val();
-        const dateTo = $('#dateTo').val();
-        const location = $('#input_location').val();
-        var price = parseFloat($('#maxPrice').text());
-        $('#loaderContent').show();
-        const params = {
-            location,
-            dateFrom,
-            dateTo,
-            adult,
-            children,
-            kind,
-            rating: star,
-            price,
-            page: currentPage,
-        };
-        globalParams = params;
-        $.get('/booking', params)
-            .done(function (response) {
-                // Display the response data on the page
-                const $response = $(response);
-                $('#listRoom').html($response.find('#listRoom').html());
-                $('#loaderContent').hide();
-                $('.pagination-container').html(
-                    $response.find('.pagination-container').html(),
-                );
 
-                $('.listSort ul .list-group-item').removeClass('sortActive');
-                $('#bestMatch').addClass('sortActive');
-            })
-            .fail(function (error) {
-                // Handle any errors that occurred
-            });
-    });
 
-    //---SHOWING FULL ROOM WHEN NO LOCATION SELECTED---//
-    $('#id_room').on('click', function () {
-        // Reset all field
-        $('#quantifyAdult').val('');
-        $('#quantifyChildren').val('');
-        $('#dateFrom').val('');
-        $('#dateTo').val('');
-        $('#input_location').val('');
-        $('input[name="kind"]').prop('checked', false);
-        $('input[name="numberStar"]').prop('checked', false);
-        kind.length = 0;
-        star.length = 0;
-        $('#maxPrice').text(1000);
-        $('#loaderContent').show();
-        globalParams = {}; // Reset globalParams object
-        currentPage = 1;
-        globalParams.page = currentPage;
-        const queryParams = $.param(globalParams); // Serialize globalParams into a query string
-        $.ajax({
-            type: 'GET',
-            url: `/booking?${queryParams}`,
-            success: function (response) {
-                const $response = $(response);
-                $('#listRoom').html($response.find('#listRoom').html());
-                $('#loaderContent').hide();
-                $('.pagination-container').html(
-                    $response.find('.pagination-container').html(),
-                );
-                $('.listSort ul .list-group-item').removeClass('sortActive');
-                $('#id_room').addClass('sortActive');
-            },
-        });
-    });
 
     //---SORT PRICE DESC---//
     $('#highPrice').on('click', function () {

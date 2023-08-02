@@ -781,6 +781,10 @@ h5 {
     user-select: none;
     cursor: pointer;
 }
+.basic_filter_item input{
+    text-align: center;
+    border: 0;
+}
 
 .basic_filter_location {
     width: fit-content;
@@ -878,7 +882,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .controller_person_input {
-    width: 20px;
+    width: fit-content;
     text-align: center;
     outline: none;
     border: none;
@@ -1267,6 +1271,39 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .btnBookStep1:hover::before {
     width: 100%;
     background-color: var(--button-blue);
+}
+
+.btnBookStep {
+    border: 1px solid grey;
+    font-size: 16px;
+    padding: 10px 40px;
+    margin: 0 auto;
+    width: inherit;
+    transition: width 1s linear;
+    font-weight: 500;
+    position: relative;
+}
+
+.btnBookStep:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 100%;
+    background-color: black;
+    transition: width 0.5s ease-in-out;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+.btnBookStep:hover {
+    color: var(--white);
+}
+
+.btnBookStep:hover::before {
+    width: 100%;
+    background-color: black;
 }
 
 .wrapContent4 {

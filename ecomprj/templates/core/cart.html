@@ -24,18 +24,18 @@
                                     <div class="basic_filter_item basic_filter4 mr-5">
                                         <span class="text-dark" data-bs-container="body" data-bs-toggle="popover"
                                             data-bs-placement="bottom" data-bs-content="Bottom popover">
-                                            <span id="showAdult">1</span>
+                                            <input id="showQuantity" name="quantity" value="1" size="3" oninput="updateQuantify('up', 1)"></input>
                                         </span>
 
                                     </div>
                                     <div class="controller_person">
                                         <div class="arrow-up"></div>
                                         <div class="">
-                                            <span class="text-dark mr-5">Adjust</span>
-                                            <div class="btn btn-success" id="" onclick="downQuantify('Adult')">-</div>
+                                            <span class="text-dark">Adjust</span>
+                                            <div class="btn btn-success" id="" onclick="updateQuantify('down', 1)">-</div>
                                             <input class="controller_person_input" type="text" name=""
-                                                id="quantifyAdult" value="1" readonly>
-                                            <div class="btn btn-success" id="" onclick="upQuantify('Adult')">+</div>
+                                                id="quantifyQuantity" value="1" size="3" readonly>
+                                            <div class="btn btn-success" id="" onclick="updateQuantify('up', 1)">+</div>
                                         </div>
                                         <div class="btn btn-danger w-100 mt-3 text-center" id="close_controller_person">
                                             Close</div>
