@@ -6,6 +6,7 @@ app_name = 'spray'
 urlpatterns = [
     path("", views.index),
     path("product", views.product),
+    path("signin", views.signin),
     path("cart", views.cart),
 
     path("product/<slug:product_slug>", views.product_details),

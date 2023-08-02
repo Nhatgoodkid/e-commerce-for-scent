@@ -21,9 +21,12 @@ def generate_unique_slug(name, max_attempts=10):
 def index(request):
     return render(request, 'core/index.html')
 
+# [GET] /signin
+def signin(request):
+    return render(request, 'core/signin.html')
+
 # [GET] /cart/:user
 def cart(request):
-
     return render(request, 'core/cart.html')
 
 # [GET] /product
