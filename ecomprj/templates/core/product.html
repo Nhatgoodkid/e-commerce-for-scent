@@ -50,7 +50,7 @@
                         {% for product in product %}
                         <div class="col">
                             <div class="card">
-                                <img src="{% static product.image_url %}" class="card-img-top" alt="img-thumbnail">
+                                <a href="/product/{{product.slug}}"><img src="{% static product.image_url|add:'.jpg' %}" class="card-img-top" alt="img-thumbnail"></a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{product.name}}</h5>
                                     <div style="display: flex;">

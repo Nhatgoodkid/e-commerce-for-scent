@@ -6,7 +6,7 @@
     --light-green: #007554;
     --button-blue: #009df5;
     --bg-nav: #12362c;
-    --bg-dropdown: rgba(9, 86, 149, 0.5);
+    --bg-dropdown: rgba(1, 1, 1, 0.5);
     --grey: #b7bfbf;
     --light-grey: #d9d9d9;
     --light-grey2: #f0f3fa;
@@ -241,6 +241,11 @@ body {
 }
 
 /*----------------------------------HEADER-------------------------------------------- */
+
+.navbar {
+    align-items: center;
+}
+
 .navigation {
     z-index: 10;
     position: fixed;
@@ -255,6 +260,7 @@ body {
     width: 200px;
     background-color: var(--white);
     border-radius: 0px 0px 30px 30px;
+    margin-top: -4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -264,9 +270,19 @@ body {
     text-align: center;
 }
 
+.navbar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
 .nav-item {
-    padding: 1rem 1.4rem;
-    margin: 12px 0;
+    margin: 0 15px;
+    /* Adjust the spacing between nav items as needed */
 }
 
 .nav-link {
@@ -279,6 +295,19 @@ body {
 .nav-link:hover {
     color: var(--gold);
     font-weight: bold;
+}
+
+.badge {
+    background-color: var(--white);
+    border-radius: 10px;
+    color: black;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 1;
+    padding: 3px 7px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 .signIn {
@@ -396,7 +425,7 @@ h5 {
 
 .fa {
     font-size: 1.6rem;
-    margin-right: 2rem;
+    margin-right: 1rem;
 }
 
 .footerInputLabel {
@@ -1032,13 +1061,13 @@ input[type='date']::-webkit-calendar-picker-indicator {
     opacity: 0;
 }
 
-.filter-title{
+.filter-title {
     font-size: 1.5rem;
     font-weight: 900;
     font-family: Fenix;
 }
 
-.form-check-label{
+.form-check-label {
     font-size: 1.2rem;
     font-family: Montserrat;
 }
@@ -1132,6 +1161,13 @@ input[type='date']::-webkit-calendar-picker-indicator {
     height: fit-content;
     padding: 25px 100px;
     color: black;
+}
+
+.fixed-image {
+    width: 600px;
+    height: 600px;
+    object-fit: contain;
+    /* Optional, used to handle aspect ratio if the image size doesn't match the fixed size */
 }
 
 .carousel-inner {
@@ -1390,6 +1426,95 @@ input[type='date']::-webkit-calendar-picker-indicator {
     padding: 10px;
     height: 120px;
     overflow-y: auto;
+}
+
+/* -----------------------------------------CHECK OUT------------------------------------------ */
+.wrapper_checkout {
+    background-color: #f7f7f7;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    height: fit-content;
+    padding: 25px 100px;
+    color: black;
+
+    .table,
+    tr {
+        border: 0.2px solid rgb(92, 92, 92);
+        border-collapse: collapse;
+        font-size: 16px;
+        font-family: Montserrat;
+        font-weight: 300;
+        word-wrap: break-word;
+    }
+
+    .thead {
+        background-color: #D9D9D9;
+        font-size: 16px;
+        font-family: Montserrat;
+        font-weight: 300;
+        word-wrap: break-word
+    }
+
+    .title {
+        font-size: 48px;
+        font-family: 'Montserrat';
+        font-weight: 700;
+        word-wrap: break-word
+    }
+
+    .sub-title {
+        font-size: 16px;
+        font-family: Montserrat;
+        font-weight: 400;
+        word-wrap: break-word
+    }
+
+    .checkout {
+        font-size: 14px;
+        font-family: Montserrat;
+        font-weight: 300;
+        word-wrap: break-word
+    }
+
+    .form-control {
+        border: 0.50px #D9D9D9 solid;
+        height: 50px;
+        font-size: large;
+        word-wrap: break-word;
+    }
+
+    .pre-image {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+    }
+
+    .btnProceed:hover {
+        text-align: center;
+        color: #F7F7F7;
+        font-size: 16px;
+        font-family: Montserrat;
+        font-weight: 400;
+        background: rgba(0, 0, 0, 0.90);
+        border: 0.50px #D9D9D9 solid;
+        transition: width 1s linear;
+
+        word-wrap: break-word;
+
+    }
+
+    .btnProceed {
+        text-align: center;
+        color: black;
+        font-size: 16px;
+        font-family: Montserrat;
+        font-weight: 400;
+        background: rgba(255, 255, 255, 0.9);
+        border: 0.50px #000000 solid;
+        transition: width 1s linear;
+        word-wrap: break-word;
+
+    }
 }
 
 /* -----------------------------------------CONFIRMATION------------------------------------------ */

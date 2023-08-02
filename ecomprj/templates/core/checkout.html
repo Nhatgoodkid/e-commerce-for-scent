@@ -1,0 +1,71 @@
+{% extends 'partials/header.html' %}
+{% load static %}
+{% block content %}
+<div class="wrapper_checkout">
+  <div class="container-fluid">
+    <div class="row ">
+      <p class="title">Checkout</p>
+      <div class="col-lg-6 mb-5">
+        <p class="sub-title">BILLING & SHIPPING</p>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="firstName" class="checkout">FIRST NAME:</label>
+            <input type="text" class="form-control" name="firstName" id="firstName">
+          </div>
+
+          <div class="col-lg-6">
+            <label for="lastName" class="checkout">LAST NAME:</label>
+            <input type="text" class="form-control" name="lastName" id="lastName">
+          </div>
+        </div>
+        <label for="country" class="checkout">COUNTRY:</label>
+        <input type="text" class="form-control" name="country" id="country">
+
+        <label for="location" class="checkout">PROVINCE/CITY:</label>
+        <input type="text" class="form-control" name="location" id="location">
+
+        <label for="district" class="checkout">DISTRICT:</label>
+        <input class="form-control" name="district" id="district" cols="50" rows="3"></input>
+
+        <label for="address" class="checkout">STREET ADDRESS:</label>
+        <input type="text" class="form-control" name="address" id="address">
+
+        <label for="phone" class="checkout">PHONE:</label>
+        <input type="number" class="form-control" name="phone" id="phone">
+
+        <label for="email" class="checkout">EMAIL:</label>
+        <input type="email" class="form-control" name="email" id="email">
+      </div>
+
+      <div class="col-lg-6 mt-md-5 mt-lg-0">
+        <p class="sub-title mb-5">YOUR ORDER</p>
+        <table class="table table-borderless">
+          <thead class="thead">
+            <tr>
+              <th scope="col" class="tab-checkout">PRODUCT</th>
+              <th scope="col">QUANTITY</th>
+              <th scope="col">UNIT PRICE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><img src="{% static product.image_url|add:'.jpg' %}" class="d-block pre-image"></th>
+              <td>1</td>
+              <td>135.000 VNĐ</td>
+            </tr>
+
+            <tr>
+              <td colspan="2">SUBTOTAL</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-right mt-5 ">
+          <a class="btnProceed btn" href="/product/{{product.slug}}/check-out">PROCEED TO CHECKOUT</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

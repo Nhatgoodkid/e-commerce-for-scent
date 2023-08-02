@@ -31,6 +31,24 @@ def product(request):
         'kind': sorted_kind,
         })
 
+# [GET] /product/:slug
+def product_details(request, product_slug):
+    try:
+        product = Product.objects.get(slug=product_slug)
+    except Product.DoesNotExist:
+        return redirect('/product')
+    
+    return render(request, 'core/product_detail.html', {'product': product})
+
+# [GET] /product/:slug
+def checkout_product(request, product_slug):
+    try:
+        product = Product.objects.get(slug=product_slug)
+    except Product.DoesNotExist:
+        return redirect('/product')
+    
+    return render(request, 'core/checkout.html', {'product': product})
+
 # [GET] /adm/product
 def product_management(request):
     product = Product.objects.all()
