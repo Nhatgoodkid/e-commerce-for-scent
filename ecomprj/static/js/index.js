@@ -17,7 +17,7 @@ $('#close_controller_person').click(function (e) {
 });
 
 // --------------------- Quantify People
-var adult = 0;
+var adult = 1;
 var child = 0;
 function upQuantify(kind) {
     if (kind == 'Adult') {
@@ -568,12 +568,16 @@ $(document).ready(function () {
     // Send request sign in
     $('#btn-signIn').click(function (e) {
         e.preventDefault();
+        const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
             type: 'POST',
-            url: '/user/sign-in',
+            url: '/signin',
             data: {
                 email: $('#email').val(),
                 password: $('#password').val(),
+            },
+            headers: {
+                "X-CSRFToken": csrfToken,
             },
             success: function (response) {
                 if (response.err) {

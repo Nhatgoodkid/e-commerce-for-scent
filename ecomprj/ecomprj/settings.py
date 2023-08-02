@@ -82,16 +82,18 @@ WSGI_APPLICATION = 'ecomprj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.dummy',
+        'ENGINE': 'django.db.backends.dummy',  # Chúng ta không sử dụng đến Django's ORM nên dùng 'dummy'
+        'NAME': 'note-page',  # Tên database bạn muốn sử dụng
+        'HOST': 'note-page.vj9hypl.mongodb.net',  # Host của MongoDB Atlas
+        'PORT': 27017,  # Port mặc định của MongoDB
+        'USER': 'teky',  # Tên người dùng của MongoDB Atlas
+        'PASSWORD': 'C41jumox6pvNgtI8',  # Mật khẩu của MongoDB Atlas
+        'OPTIONS': {
+            'retryWrites': True,
+            'ssl': True,
+        },
     }
 }
-# MongoDB settings
-MONGODB_DATABASES = {
-    'default': {
-        'name': 'note-page'
-        }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

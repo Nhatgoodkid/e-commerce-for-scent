@@ -15,6 +15,7 @@
                 <h4 class="subLogoText">The scent lab</h4>
             </div>
             <div class="wrapper_form" id="signInForm">
+                {% csrf_token %}
                 <input type="text" id="email" class="email mt-4 mb-2" name="email" placeholder="Email" value="" ><br>
                 <input type="password" id="password" class="pwd  mt-4 mb-2 password" name="password"
                     placeholder="Password" value=""><br>
@@ -30,7 +31,7 @@
             </div>
             <p class="text-dark text-center mt-4"> Have not an account yet?
                 <span>
-                    <a href="/sign-up">Sign up</a>
+                    <a href="/signup">Sign up</a>
                 </span>
             </p>
         </div>

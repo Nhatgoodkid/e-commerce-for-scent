@@ -1,62 +1,62 @@
 {% extends 'partials/header.html' %}
 {% load static %}
 {% block content %}
-<div class="row">
-    <div class="col-lg-12">
-        <div class="box-element">
+<div class="container cart">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box-element">
+                <h2 class="sub-title mb-5">YOUR CART</h2>
+                <table class="table table-borderless">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col" class="tab-checkout">PRODUCT</th>
+                            <th scope="col">QUANTITY</th>
+                            <th scope="col">UNIT PRICE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><img src="{% static product.image_url|add:'.jpg' %}"
+                                    class="d-block pre-image">
+                            </th>
+                            <td>
+                                <div class="wrap_basic_filter4">
+                                    <div class="basic_filter_item basic_filter4 mr-5">
+                                        <span class="text-dark" data-bs-container="body" data-bs-toggle="popover"
+                                            data-bs-placement="bottom" data-bs-content="Bottom popover">
+                                            <span id="showAdult">1</span>
+                                        </span>
 
-            <a class="btn btn-outline-dark" href="">&#x2190; Continue Shopping</a>
+                                    </div>
+                                    <div class="controller_person">
+                                        <div class="arrow-up"></div>
+                                        <div class="">
+                                            <span class="text-dark mr-5">Adjust</span>
+                                            <div class="btn btn-success" id="" onclick="downQuantify('Adult')">-</div>
+                                            <input class="controller_person_input" type="text" name=""
+                                                id="quantifyAdult" value="1" readonly>
+                                            <div class="btn btn-success" id="" onclick="upQuantify('Adult')">+</div>
+                                        </div>
+                                        <div class="btn btn-danger w-100 mt-3 text-center" id="close_controller_person">
+                                            Close</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>135.000 VNĐ</td>
+                        </tr>
 
-            <br>
-            <br>
-            <table class="table">
-                <tr>
-                    <th>
-                        <h5>Items: <strong></strong></h5>
-                    </th>
-                    <th>
-                        <h5>Total:<strong> </strong></h5>
-                    </th>
-                    <th>
-                        <a style="float:right; margin:5px;" class="btn btn-success" href="">Checkout</a>
-                    </th>
-                </tr>
-            </table>
-
-        </div>
-
-        <br>
-        <div class="box-element">
-            <div class="cart-row">
-                <div style="flex:2"></div>
-                <div style="flex:2"><strong>Item</strong></div>
-                <div style="flex:1"><strong>Price</strong></div>
-                <div style="flex:1"><strong>Quantity</strong></div>
-                <div style="flex:1"><strong>Total</strong></div>
-            </div>
-            <div class="cart-row">
-                <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-                <div style="flex:2">
-                    <p></p>
-                </div>
-                <div style="flex:1">
-                    <p></p>
-                </div>
-                <div style="flex:1">
-                    <p class="quantity"></p>
-                    <div class="quantity">
-                        <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart"
-                            src="{% static  'images/arrow-up.png' %}">
-
-                        <img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart"
-                            src="{% static  'images/arrow-down.png' %}">
-                    </div>
-                </div>
-                <div style="flex:1">
-                    <p></p>
+                        <tr>
+                            <td colspan="2">SUBTOTAL</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-right mt-5 ">
+                    <a class="btnProceed btn" href="/product/{{product.slug}}/check-out">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

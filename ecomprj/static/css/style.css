@@ -839,7 +839,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .basic_filter4 {
     font-size: 14px;
     position: relative;
-    width: 220px;
+    width: fit-content;
 }
 
 .arrow-up {
@@ -1428,6 +1428,15 @@ input[type='date']::-webkit-calendar-picker-indicator {
     overflow-y: auto;
 }
 
+/* -----------------------------------------CHECK OUT------------------------------------------ */
+.cart{
+    background-color: #f7f7f7;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    height: fit-content;
+    padding: 25px 100px;
+    color: black;
+}
 /* -----------------------------------------CHECK OUT------------------------------------------ */
 .wrapper_checkout {
     background-color: #f7f7f7;
