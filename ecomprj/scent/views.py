@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.http import HttpResponse
-from .models import Product
+from .models import Product, User
 import random
 import string
 

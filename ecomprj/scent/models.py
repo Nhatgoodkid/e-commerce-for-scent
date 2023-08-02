@@ -18,3 +18,14 @@ class Product(Document):
         if not self.slug:
             self.slug = slugify(self.name)
         super(Product, self).save(*args, **kwargs)
+
+class User(Document):
+    username = StringField(required=True, unique=True)
+    email = EmailField(required=True, unique=True)
+    password = StringField(required=True)
+    firstname = StringField()
+    lastname = StringField()
+    phone = StringField()
+    street_address = StringField()
+    city_address = StringField()
+    district_address = StringField()
