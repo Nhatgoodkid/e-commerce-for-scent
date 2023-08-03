@@ -1,7 +1,7 @@
 {% extends 'partials/header.html' %}
 {% load static %}
 {% block content %}
-
+{% csrf_token %}
 <div class="background_frame background_frame_booking">
     <div class="booking_header">
         <div class="booking_header_title animate__animated animate__flipInX d-flex">
@@ -102,7 +102,7 @@
                                         </svg>
                                         <div >
                                             <p class="card-price">{{product.price}} VNĐ</p>
-                                            <a href="#"><span class="add-to-cart-text btn btn-dark">Add to Cart</span></a>
+                                            <a href="#"><span class="add-to-cart-text btn btn-dark" onclick="addToCart('{{product.slug}}')">Add to Cart</span></a>
                                         </div>
 
                                     </div>

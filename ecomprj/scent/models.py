@@ -30,3 +30,8 @@ class User(Document):
     city_address = StringField()
     district_address = StringField()
     password = StringField()
+
+class CartItem(Document):
+    product = ReferenceField(Product)
+    quantity = IntField(default=0)
+    

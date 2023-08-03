@@ -68,6 +68,31 @@ function getValLocation(e) {
     $('#input_location').val(e);
 }
 
+function reloadTotalQuantity(totalQuantity) {
+    // Update the badge value with the new totalQuantity
+    $('.badge').text(totalQuantity);
+}
+
+function addToCart(productSlug) {
+    const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    fetch(`/add-to-cart/${productSlug}`, {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.total_quantity)
+        // Reload the total quantity in the header
+        $('.badge').text(data.total_quantity);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 $(document).ready(function () {
     $('#loaderContent').hide();
     //Animation for HomePage

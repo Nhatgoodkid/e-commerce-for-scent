@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse
-from .models import Product, User
+from django.http import HttpResponse, JsonResponse
+from .models import Product, User, CartItem
 import random
 import string
 
@@ -100,7 +100,27 @@ def signin(request):
 
 # [GET] /cart/:user
 def cart(request):
-    return render(request, 'core/cart.html')
+    cart_items = CartItem.objects.all()
+    total_quantity = sum(cart_item.quantity for cart_item in cart_items)
+    return render(request, 'core/cart.html', {'cart_items': cart_items, 'total_quantity': total_quantity})
+
+# [POST] /add-to-cart
+def add_to_cart(request, product_slug):
+    try:
+        product = Product.objects.get(slug=product_slug)
+        cart_item = CartItem.objects(product=product).first()
+
+        if cart_item:
+            cart_item.update(inc__quantity=1)
+        else:
+            cart_item = CartItem(product=product, quantity=1)
+            cart_item.save()
+
+        cart_items = CartItem.objects.all()
+        total_quantity = sum(cart.quantity for cart in cart_items)
+        return JsonResponse({'message': 'Product added to cart successfully.','total_quantity': total_quantity})
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found.'})
 
 # [GET] /product
 def product(request):
@@ -122,13 +142,9 @@ def product_details(request, product_slug):
     return render(request, 'core/product_detail.html', {'product': product})
 
 # [GET] /product/:slug
-def checkout_product(request, product_slug):
-    try:
-        product = Product.objects.get(slug=product_slug)
-    except Product.DoesNotExist:
-        return redirect('/product')
+def checkout_product(request):
     
-    return render(request, 'core/checkout.html', {'product': product})
+    return render(request, 'core/checkout.html')
 
 # [GET] /adm/product
 def product_management(request):
