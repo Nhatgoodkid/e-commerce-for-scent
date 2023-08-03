@@ -9,20 +9,33 @@ $('#searchHistory').click(function (e) {
 
 // BOOKING
 $('.basic_filter4').click(function (e) {
-    $('.controller_person').toggle();
+    // Use closest() to target the controller_person within the same row
+    $(this).closest('tr').find('.controller_person').toggle();
 });
 
-$('#close_controller_person').click(function (e) {
+// Event delegation for the close button click event
+$(document).on('click', '#close_controller_person', function (e) {
     $('.controller_person').hide();
 });
 
-// --------------------- Quantify People
+// Event listener for clicks outside the controller_person
+$(document).on('click', function (e) {
+    const isControllerPerson = $(e.target).closest('.controller_person').length > 0;
+    const isBasicFilter4 = $(e.target).closest('.basic_filter4').length > 0;
+
+    // If the click is outside the controller_person and not on .basic_filter4, hide the controller_person
+    if (!isControllerPerson && !isBasicFilter4) {
+        $('.controller_person').hide();
+    }
+});
 
 // Function to increment/decrement the value in "controller_person_input" and "showQuantity"
-function updateQuantify(kind, value) {
-    const showQuantityInput = document.getElementById('showQuantity');
-    const quantifyQuantityInput = document.getElementById('quantifyQuantity');
+function updateQuantify(kind, value, cartItemId) {
+    const showQuantityInput = document.getElementById(`showQuantity${cartItemId}`);
+    const quantifyQuantityInput = document.getElementById(`quantifyQuantity${cartItemId}`);
+
     quantifyQuantityInput.value = showQuantityInput.value;
+
     if (kind === 'up') {
         const currentValue = parseInt(showQuantityInput.value, 10);
         showQuantityInput.value = currentValue + value;
@@ -34,7 +47,6 @@ function updateQuantify(kind, value) {
             quantifyQuantityInput.value = currentValue - value;
         }
     }
-
 }
 
 function priceBarSetting() {

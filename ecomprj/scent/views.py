@@ -100,9 +100,28 @@ def signin(request):
 
 # [GET] /cart/:user
 def cart(request):
+    # Truy vấn CartItem từ database
     cart_items = CartItem.objects.all()
-    total_quantity = sum(cart_item.quantity for cart_item in cart_items)
-    return render(request, 'core/cart.html', {'cart_items': cart_items, 'total_quantity': total_quantity})
+
+    # List to store CartItems with related Product data
+    cart_items_with_product = []
+    
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    # Fetch the related Product data for each CartItem
+    for cart_item in cart_items:
+        product_id = str(cart_item.product.id)  # Get the ObjectId as a string
+        product = Product.objects.filter(id=product_id).first()
+        if product:
+            cart_item.product = product
+            cart_items_with_product.append(cart_item)
+
+    # Truyền danh sách cart_items_with_product vào context để sử dụng trong template
+    context = {
+        'cart_items': cart_items_with_product,
+        'total_price': total_price
+    }
+
+    return render(request, 'core/cart.html', context)
 
 # [POST] /add-to-cart
 def add_to_cart(request, product_slug):
