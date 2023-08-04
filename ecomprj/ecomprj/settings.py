@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     ## Custom Apps
     'scent',
+    'mongoengine',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -69,10 +70,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'scent.context_processors.cart_quantity'  # <-- our custom context processor
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'ecomprj.wsgi.application'
 
@@ -94,22 +97,6 @@ DATABASES = {
         },
     }
 }
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'scent.context_processors.cart_quantity'  # <-- our custom context processor
-            ],
-        },
-    },
-]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
