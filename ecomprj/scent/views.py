@@ -104,8 +104,6 @@ def signin(request):
             # (e.g., set session variables, redirect to the dashboard, etc.)
             # Save user information to the session
             request.session['user_id'] = user.id
-            request.session['user_firstname'] = user.firstname
-            request.session['user_lastname'] = user.lastname
             messages.success(request, 'Đăng nhập thành công.')
             return redirect('/')  # Replace with your desired URL
         else:
@@ -224,12 +222,41 @@ def product_details(request, product_slug):
 
     return render(request, 'core/product_detail.html', {'product': product})
 
-# [GET] /checkout/:slug
+# [GET] /checkout/:user
 
 
 def checkout_product(request):
+    # Truy vấn CartItem từ database
+    user_id = request.session.get('user_id')
+    if user_id:
+        cart_items = CartItem.objects.filter(user_id=str(user_id))
+    else:
+        cart_items = CartItem.objects.filter(
+            session_key=request.session.session_key)
 
-    return render(request, 'core/checkout.html')
+    if not user_id and not request.session.session_key:
+        cart_items = {}
+
+    # List to store CartItems with related Product data
+    cart_items_with_product = []
+
+    total_price = sum(item.product.price *
+                      item.quantity for item in cart_items)
+    # Fetch the related Product data for each CartItem
+    for cart_item in cart_items:
+        product_id = str(cart_item.product.id)  # Get the ObjectId as a string
+        product = Product.objects.filter(id=product_id).first()
+        if product:
+            cart_item.product = product
+            cart_items_with_product.append(cart_item)
+
+    # Truyền danh sách cart_items_with_product vào context để sử dụng trong template
+    context = {
+        'cart_items': cart_items_with_product,
+        'total_price': total_price,
+    }
+
+    return render(request, 'core/checkout.html', context)
 
 # [GET] /adm/product
 

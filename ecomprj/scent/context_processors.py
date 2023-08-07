@@ -1,4 +1,4 @@
-from .models import CartItem
+from .models import CartItem, User
 
 
 def cart_quantity(request):
@@ -8,7 +8,7 @@ def cart_quantity(request):
     else:
         session_key = request.session.session_key
         cart_items = CartItem.objects(session_key=session_key)
-    #Check if user and session is available
+    # Check if user and session is available
     if not user and not request.session.session_key:
         total_quantity = 0
     else:
@@ -16,10 +16,12 @@ def cart_quantity(request):
     return {'total_quantity': total_quantity}
 
 
-def user_firstname(request):
-    user = request.session.get('user_id')
-    user_firstname = request.session.get('user_firstname')
-    user_lastname = request.session.get('user_lastname')
-    return {'user_firstname': user_firstname,
-            'user_lastname': user_lastname,
-            'user': user}
+def user_info(request):
+    user_id = request.session.get('user_id')
+    user = {}
+    if user_id:
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            pass
+    return {'user': user}

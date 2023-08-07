@@ -11,31 +11,29 @@
         <div class="row">
           <div class="col-lg-6">
             <label for="firstName" class="checkout">FIRST NAME:</label>
-            <input type="text" class="form-control" name="firstName" id="firstName">
+            <input type="text" class="form-control" name="firstName" id="firstName" value="{{user.firstname}}">
           </div>
 
           <div class="col-lg-6">
             <label for="lastName" class="checkout">LAST NAME:</label>
-            <input type="text" class="form-control" name="lastName" id="lastName">
+            <input type="text" class="form-control" name="lastName" id="lastName" value="{{user.lastname}}">
           </div>
         </div>
-        <label for="country" class="checkout">COUNTRY:</label>
-        <input type="text" class="form-control" name="country" id="country">
 
         <label for="location" class="checkout">PROVINCE/CITY:</label>
-        <input type="text" class="form-control" name="location" id="location">
+        <input type="text" class="form-control" name="city_address" id="city_address" value="{{user.city_address}}">
 
         <label for="district" class="checkout">DISTRICT:</label>
-        <input class="form-control" name="district" id="district" cols="50" rows="3"></input>
+        <input class="form-control" name="district_address" id="district_address" cols="50" rows="3" value="{{user.district_address}}"></input>
 
         <label for="address" class="checkout">STREET ADDRESS:</label>
-        <input type="text" class="form-control" name="address" id="address">
+        <input type="text" class="form-control" name="street_address" id="street_address" value="{{user.street_address}}">
 
         <label for="phone" class="checkout">PHONE:</label>
-        <input type="number" class="form-control" name="phone" id="phone">
+        <input type="text" class="form-control" name="phone" id="phone" value="{{user.phone}}">
 
         <label for="email" class="checkout">EMAIL:</label>
-        <input type="email" class="form-control" name="email" id="email">
+        <input type="email" class="form-control" name="email" id="email" value="{{user.email}}">
       </div>
 
       <div class="col-lg-6 mt-md-5 mt-lg-0">
@@ -49,15 +47,16 @@
             </tr>
           </thead>
           <tbody>
+            {% for cart in cart_items %}
             <tr>
-              <th scope="row"><img src="{% static product.image_url|add:'.jpg' %}" class="d-block pre-image"></th>
-              <td>1</td>
-              <td>135.000 VNĐ</td>
+              <th scope="row"><img src="{% static cart.product.image_url|add:'.jpg' %}" class="d-block pre-image"></th>
+              <td>{{cart.quantity}}</td>
+              <td>{{cart.product.price}}</td>
             </tr>
-
+            {% endfor %}
             <tr>
               <td colspan="2">SUBTOTAL</td>
-              <td>@twitter</td>
+              <td>{{total_price}}</td>
             </tr>
           </tbody>
         </table>

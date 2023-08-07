@@ -73,7 +73,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # <-- our custom context processor
                 'scent.context_processors.cart_quantity',
-                'scent.context_processors.user_firstname',
+                'scent.context_processors.user_info',
             ],
         },
     },
