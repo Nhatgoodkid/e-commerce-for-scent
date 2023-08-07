@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import logout
 from django.http import JsonResponse
 from .models import Product, User, CartItem
 import random
@@ -106,6 +107,11 @@ def signin(request):
             return redirect('/signin')  # Replace with your desired URL
 
     return render(request, 'core/signin.html')
+
+# [POST] /logout
+def logout_view(request):
+    logout(request)
+    return redirect('/') 
 
 # [GET] /cart/:user
 def cart(request):
