@@ -266,6 +266,6 @@ def delete_product(request, product_id):
     # Redirect to product management
     return redirect('/adm/product')
 
-
+# [GET] /adm
 def admin(request):
     return render(request, 'admin_core/dashboard.html')

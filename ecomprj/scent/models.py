@@ -36,9 +36,18 @@ class User(Document):
 
 
 class CartItem(Document):
+    user_id=StringField()
+    session_key=StringField()
     product = ReferenceField(Product)
     quantity = IntField(default=0)
-
+    meta = {
+        'indexes': [
+            # Index for user_id to speed up queries
+            {'fields': ['user_id']},
+            # Index for session_key to speed up queries
+            {'fields': ['session_key']},
+        ]
+    }
 
 class Order(Document):
     cart_item = ReferenceField(CartItem)
