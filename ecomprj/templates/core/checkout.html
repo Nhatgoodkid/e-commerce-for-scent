@@ -7,6 +7,7 @@
       <p class="title">Checkout</p>
       <div class="col-lg-6 mb-5">
         <p class="sub-title">BILLING & SHIPPING</p>
+        <form action="add/check-out" method="POST">
         <div class="row">
           <div class="col-lg-6">
             <label for="firstName" class="checkout">FIRST NAME:</label>
@@ -62,6 +63,7 @@
         </table>
         <div class="text-right mt-5 ">
           <a class="btnProceed btn" href="/product/{{product.slug}}/check-out">PROCEED TO CHECKOUT</a>
+        </form>
         </div>
       </div>
     </div>

@@ -521,33 +521,6 @@ $(document).ready(function () {
         }
     });
 
-    // Send request sign in
-    $('#btn-signIn').click(function (e) {
-        e.preventDefault();
-        const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-        $.ajax({
-            type: 'POST',
-            url: '/signin',
-            data: {
-                email: $('#email').val(),
-                password: $('#password').val(),
-            },
-            headers: {
-                "X-CSRFToken": csrfToken,
-            },
-            success: function (response) {
-                if (response.err) {
-                    $('#flashMessage-danger')
-                        .text(response.errorMessage[0])
-                        .show()
-                        .delay(2000)
-                        .fadeOut();
-                } else {
-                    window.location.replace('/');
-                }
-            },
-        });
-    });
 
     // ----------- UPDATE PROFILE -----------------
     $('#saveProfile').click(function (e) {

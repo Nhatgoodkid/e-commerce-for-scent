@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.contrib import messages
-from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
 from .models import Product, User, CartItem
 import random
 import string
@@ -74,27 +75,32 @@ def signin(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+
+       # Retrieve the user from the database by their username
         try:
-            # Tìm kiếm người dùng theo email
             user = User.objects.get(email=email)
-            
-            # Kiểm tra mật khẩu
-            if user.password == password:
-                # Mật khẩu đúng, đăng nhập thành công
-                # Lưu thông tin người dùng vào session
-                request.session['user_id'] = str(user.id)
-                request.session['username'] = user.username
-                # Hoặc bạn có thể sử dụng request.session['user'] = user để lưu toàn bộ đối tượng user
-                messages.success(request, 'Đăng nhập thành công.')
-                return render(request, 'core/index.html')
-            else:
-                # Mật khẩu không đúng, đăng nhập thất bại
-                messages.error(request, 'Mật khẩu không đúng.')
-                return render(request, 'core/signin.html')
         except User.DoesNotExist:
-            # Người dùng không tồn tại, đăng nhập thất bại
-            messages.error(request, 'Người dùng không tồn tại.')
-            return render(request, 'core/signin.html')
+            # User not found, handle the error accordingly
+            # (You can show an error message or redirect to a signup page)
+            messages.error(request, 'Invalid email')
+            return redirect('/signin') 
+
+
+        # Check if the provided password matches the hashed password in the database
+        if check_password(password, user.password):
+            # Password matches, user authenticated successfully
+            # Perform login actions and redirect to the desired page
+            # (e.g., set session variables, redirect to the dashboard, etc.)
+            # Save user information to the session
+            request.session['user_id'] = user.id
+            request.session['user_firstname'] = user.firstname
+            messages.success(request, 'Đăng nhập thành công.')
+            return redirect('/')  # Replace with your desired URL
+        else:
+            # Password does not match, handle the authentication failure
+            # (You can show an error message or redirect back to the login page)
+            messages.error(request, 'Invalid credentials')
+            return redirect('/signin')  # Replace with your desired URL
 
     return render(request, 'core/signin.html')
 

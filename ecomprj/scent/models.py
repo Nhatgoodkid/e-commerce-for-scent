@@ -34,4 +34,18 @@ class User(Document):
 class CartItem(Document):
     product = ReferenceField(Product)
     quantity = IntField(default=0)
+
+class Order(Document):
+    cart_item = ReferenceField(CartItem)
+    email = EmailField(required=True, unique=True)
+    password = StringField(required=True)
+    firstname = StringField()
+    lastname = StringField()
+    phone = StringField()
+    street_address = StringField()
+    city_address = StringField()
+    district_address = StringField()
+    pay_method = StringField()
+    sub_total = IntField(default=0)
+
     

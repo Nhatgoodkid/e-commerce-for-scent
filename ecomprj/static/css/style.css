@@ -781,7 +781,8 @@ h5 {
     user-select: none;
     cursor: pointer;
 }
-.basic_filter_item input{
+
+.basic_filter_item input {
     text-align: center;
     border: 0;
 }
@@ -1466,7 +1467,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 /* -----------------------------------------CART------------------------------------------ */
-.cart{
+.cart {
     background-color: #f7f7f7;
     margin-top: 80px;
     margin-bottom: 100px;
@@ -1511,6 +1512,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
     }
 }
+
 /* -----------------------------------------CHECK OUT------------------------------------------ */
 .wrapper_checkout {
     background-color: #f7f7f7;
@@ -1602,11 +1604,12 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 
 /* -----------------------------------------CART------------------------------------------ */
-.cart-image{
+.cart-image {
     width: 60px;
     height: 60px;
     object-fit: contain;
 }
+
 /* -----------------------------------------CONFIRMATION------------------------------------------ */
 .guestInformation {
     padding: 50px 80px;
