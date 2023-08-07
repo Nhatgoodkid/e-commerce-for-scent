@@ -9,7 +9,7 @@ urlpatterns = [
     path("signin", views.signin),
     path("signup", views.signup),
     path("logout", views.logout_view),
-    path("cart", views.cart),
+    path("cart/", views.cart),
     path("add-to-cart/<slug:product_slug>", views.add_to_cart),
     path("check-out", views.checkout_product),
     path("product/<slug:product_slug>", views.product_details),

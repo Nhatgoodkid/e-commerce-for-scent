@@ -9,6 +9,8 @@ import random
 import string
 
 # Generate unique slug
+
+
 def generate_unique_slug(name, max_attempts=10):
     slug = slugify(name)
     unique_slug = slug
@@ -23,11 +25,15 @@ def generate_unique_slug(name, max_attempts=10):
     return unique_slug
 
 # [GET] /
+
+
 def index(request):
 
     return render(request, 'core/index.html')
 
 # [GET] /signup
+
+
 def signup(request):
     if request.method == 'POST':
         # Get data from the form
@@ -75,6 +81,8 @@ def signup(request):
     return render(request, 'core/signup.html')
 
 # [GET] /signin
+
+
 def signin(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -109,14 +117,26 @@ def signin(request):
     return render(request, 'core/signin.html')
 
 # [POST] /logout
+
+
 def logout_view(request):
     logout(request)
-    return redirect('/') 
+    return redirect('/')
 
 # [GET] /cart/:user
+
+
 def cart(request):
     # Truy vấn CartItem từ database
-    cart_items = CartItem.objects.all()
+    user_id = request.session.get('user_id')
+    if user_id:
+        cart_items = CartItem.objects.filter(user_id=str(user_id))
+    else:
+        cart_items = CartItem.objects.filter(
+            session_key=request.session.session_key)
+
+    if not user_id and not request.session.session_key:
+        cart_items = {}
 
     # List to store CartItems with related Product data
     cart_items_with_product = []
@@ -140,6 +160,8 @@ def cart(request):
     return render(request, 'core/cart.html', context)
 
 # [POST] /add-to-cart
+
+
 def add_to_cart(request, product_slug):
     user_id = request.session.get('user_id')
 
@@ -147,24 +169,28 @@ def add_to_cart(request, product_slug):
         product = Product.objects.get(slug=product_slug)
         if (user_id):
             user_id = str(user_id)
-            cart_item = CartItem.objects(user_id=user_id, product=product).first()
+            cart_item = CartItem.objects(
+                user_id=user_id, product=product).first()
         else:
             session_key = request.session.session_key
             if not session_key:
                 # If session_key is not available, create a new session
                 request.session.create()
                 session_key = request.session.session_key
-            cart_item = CartItem.objects(session_key=session_key, product=product).first()
-            
+            cart_item = CartItem.objects(
+                session_key=session_key, product=product).first()
+
         if cart_item:
             cart_item.update(inc__quantity=1)
         else:
             if user_id:
-                cart_item = CartItem(user_id=user_id, product=product, quantity=1)
+                cart_item = CartItem(
+                    user_id=user_id, product=product, quantity=1)
             else:
-                cart_item = CartItem(session_key=session_key, product=product, quantity=1)
+                cart_item = CartItem(
+                    session_key=session_key, product=product, quantity=1)
             cart_item.save()
-            
+
         if user_id:
             cart_items = CartItem.objects.filter(user_id=user_id)
         else:
@@ -176,6 +202,8 @@ def add_to_cart(request, product_slug):
         return JsonResponse({'error': 'Product not found.'})
 
 # [GET] /product
+
+
 def product(request):
     product = Product.objects.all()
     kind = Product.objects.distinct('kind')
@@ -186,6 +214,8 @@ def product(request):
     })
 
 # [GET] /product/:slug
+
+
 def product_details(request, product_slug):
     try:
         product = Product.objects.get(slug=product_slug)
@@ -195,17 +225,23 @@ def product_details(request, product_slug):
     return render(request, 'core/product_detail.html', {'product': product})
 
 # [GET] /checkout/:slug
+
+
 def checkout_product(request):
 
     return render(request, 'core/checkout.html')
 
 # [GET] /adm/product
+
+
 def product_management(request):
     product = Product.objects.all()
 
     return render(request, 'admin_core/product.html', {'product': product})
 
 # [POST] /adm/add/product
+
+
 def add_product(request):
     if request.method == 'POST':
         # Get data from the form
@@ -235,6 +271,8 @@ def add_product(request):
     return redirect('/adm/product')
 
 # [PUT] /adm/edit/product
+
+
 def edit_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -269,6 +307,8 @@ def edit_product(request, product_id):
     return redirect('/adm/product')
 
 # [DELETE] /adm/delete/product
+
+
 def delete_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -285,5 +325,7 @@ def delete_product(request, product_id):
     return redirect('/adm/product')
 
 # [GET] /adm
+
+
 def admin(request):
     return render(request, 'admin_core/dashboard.html')
