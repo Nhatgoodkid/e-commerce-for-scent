@@ -141,17 +141,35 @@ def cart(request):
 
 # [POST] /add-to-cart
 def add_to_cart(request, product_slug):
+    user_id = request.session.get('user_id')
+
     try:
         product = Product.objects.get(slug=product_slug)
-        cart_item = CartItem.objects(product=product).first()
-
+        if (user_id):
+            user_id = str(user_id)
+            cart_item = CartItem.objects(user_id=user_id, product=product).first()
+        else:
+            session_key = request.session.session_key
+            if not session_key:
+                # If session_key is not available, create a new session
+                request.session.create()
+                session_key = request.session.session_key
+            cart_item = CartItem.objects(session_key=session_key, product=product).first()
+            
         if cart_item:
             cart_item.update(inc__quantity=1)
         else:
-            cart_item = CartItem(product=product, quantity=1)
+            if user_id:
+                cart_item = CartItem(user_id=user_id, product=product, quantity=1)
+            else:
+                cart_item = CartItem(session_key=session_key, product=product, quantity=1)
             cart_item.save()
+            
+        if user_id:
+            cart_items = CartItem.objects.filter(user_id=user_id)
+        else:
+            cart_items = CartItem.objects.filter(session_key=session_key)
 
-        cart_items = CartItem.objects.all()
         total_quantity = sum(cart.quantity for cart in cart_items)
         return JsonResponse({'message': 'Product added to cart successfully.', 'total_quantity': total_quantity})
     except Product.DoesNotExist:
@@ -176,7 +194,7 @@ def product_details(request, product_slug):
 
     return render(request, 'core/product_detail.html', {'product': product})
 
-# [GET] /product/:slug
+# [GET] /checkout/:slug
 def checkout_product(request):
 
     return render(request, 'core/checkout.html')
