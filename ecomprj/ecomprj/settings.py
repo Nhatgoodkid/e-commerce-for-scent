@@ -40,11 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    ## Custom Apps
+    # Custom Apps
     'scent',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,7 +71,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'scent.context_processors.cart_quantity'  # <-- our custom context processor
+                # <-- our custom context processor
+                'scent.context_processors.cart_quantity',
+                'scent.context_processors.user_firstname',
             ],
         },
     },
@@ -85,7 +88,8 @@ WSGI_APPLICATION = 'ecomprj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.dummy',  # Chúng ta không sử dụng đến Django's ORM nên dùng 'dummy'
+        # Chúng ta không sử dụng đến Django's ORM nên dùng 'dummy'
+        'ENGINE': 'django.db.backends.dummy',
         'NAME': 'note-page',  # Tên database bạn muốn sử dụng
         'HOST': 'note-page.vj9hypl.mongodb.net',  # Host của MongoDB Atlas
         'PORT': 27017,  # Port mặc định của MongoDB
@@ -98,6 +102,9 @@ DATABASES = {
     }
 }
 
+# Use 'mongoengine.django.sessions' cache backend for MongoDB session support
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -149,8 +156,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
-    'site_header' : "Teky Shop",
-    'site_brand' : "You order, we deliver",
-    'site_logo' : "images/logo_image.png",
+    'site_header': "Teky Shop",
+    'site_brand': "You order, we deliver",
+    'site_logo': "images/logo_image.png",
     'copyright': "Teky-shop.com",
 }

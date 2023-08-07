@@ -2,24 +2,25 @@ from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
-from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from .models import Product, User, CartItem
 import random
 import string
 
-#Generate unique slug
+# Generate unique slug
 def generate_unique_slug(name, max_attempts=10):
     slug = slugify(name)
     unique_slug = slug
     counter = 1
     while Product.objects.filter(slug=unique_slug).first():
-        random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
+        random_string = ''.join(random.choices(
+            string.ascii_lowercase + string.digits, k=6))
         unique_slug = f"{slug}-{random_string}"
         counter += 1
         if counter > max_attempts:
             raise ValueError("Failed to generate a unique slug.")
     return unique_slug
+
 # [GET] /
 def index(request):
 
@@ -51,7 +52,8 @@ def signup(request):
             return render(request, 'core/signup.html')
 
         # Create a new User object and save it to the database
-        hashed_password = make_password(password)  # Hash the password before saving
+        # Hash the password before saving
+        hashed_password = make_password(password)
         user = User(
             firstname=firstname,
             lastname=lastname,
@@ -67,7 +69,8 @@ def signup(request):
 
         # Show success message and redirect to login page
         messages.success(request, 'Đăng ký thành công. Vui lòng đăng nhập.')
-        return redirect('/signin')  # 'login' is the URL name of your login view
+        # 'login' is the URL name of your login view
+        return redirect('/signin')
     return render(request, 'core/signup.html')
 
 # [GET] /signin
@@ -83,8 +86,7 @@ def signin(request):
             # User not found, handle the error accordingly
             # (You can show an error message or redirect to a signup page)
             messages.error(request, 'Invalid email')
-            return redirect('/signin') 
-
+            return redirect('/signin')
 
         # Check if the provided password matches the hashed password in the database
         if check_password(password, user.password):
@@ -94,6 +96,7 @@ def signin(request):
             # Save user information to the session
             request.session['user_id'] = user.id
             request.session['user_firstname'] = user.firstname
+            request.session['user_lastname'] = user.lastname
             messages.success(request, 'Đăng nhập thành công.')
             return redirect('/')  # Replace with your desired URL
         else:
@@ -111,8 +114,9 @@ def cart(request):
 
     # List to store CartItems with related Product data
     cart_items_with_product = []
-    
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
+
+    total_price = sum(item.product.price *
+                      item.quantity for item in cart_items)
     # Fetch the related Product data for each CartItem
     for cart_item in cart_items:
         product_id = str(cart_item.product.id)  # Get the ObjectId as a string
@@ -143,7 +147,7 @@ def add_to_cart(request, product_slug):
 
         cart_items = CartItem.objects.all()
         total_quantity = sum(cart.quantity for cart in cart_items)
-        return JsonResponse({'message': 'Product added to cart successfully.','total_quantity': total_quantity})
+        return JsonResponse({'message': 'Product added to cart successfully.', 'total_quantity': total_quantity})
     except Product.DoesNotExist:
         return JsonResponse({'error': 'Product not found.'})
 
@@ -153,9 +157,9 @@ def product(request):
     kind = Product.objects.distinct('kind')
     sorted_kind = sorted(kind, key=lambda x: x.lower())
     return render(request, 'core/product.html', {
-        'product':product,
+        'product': product,
         'kind': sorted_kind,
-        })
+    })
 
 # [GET] /product/:slug
 def product_details(request, product_slug):
@@ -163,19 +167,19 @@ def product_details(request, product_slug):
         product = Product.objects.get(slug=product_slug)
     except Product.DoesNotExist:
         return redirect('/product')
-    
+
     return render(request, 'core/product_detail.html', {'product': product})
 
 # [GET] /product/:slug
 def checkout_product(request):
-    
+
     return render(request, 'core/checkout.html')
 
 # [GET] /adm/product
 def product_management(request):
     product = Product.objects.all()
 
-    return render(request, 'admin_core/product.html', {'product':product})
+    return render(request, 'admin_core/product.html', {'product': product})
 
 # [POST] /adm/add/product
 def add_product(request):
@@ -212,7 +216,7 @@ def edit_product(request, product_id):
         product = Product.objects.get(id=product_id)
     except Product.DoesNotExist:
         return redirect('/adm/product')
-    
+
     if request.method == 'POST':
         # If the _method is "PUT", treat it as a PUT request
         if request.POST.get('_method') == 'PUT':
@@ -246,7 +250,7 @@ def delete_product(request, product_id):
         product = Product.objects.get(id=product_id)
     except Product.DoesNotExist:
         return redirect('/adm/product')
-    
+
     if request.method == 'POST':
         # If the _method is "PUT", treat it as a PUT request
         if request.POST.get('_method') == 'DELETE':
@@ -255,6 +259,7 @@ def delete_product(request, product_id):
 
     # Redirect to product management
     return redirect('/adm/product')
+
 
 def admin(request):
     return render(request, 'admin_core/dashboard.html')
