@@ -90,11 +90,11 @@ const innerRadio = document.getElementById('inner');
 const outerRadio = document.getElementById('outer');
 const totalField = document.getElementById('total_field');
 
-innerRadio.addEventListener('change', updateTotal);
-outerRadio.addEventListener('change', updateTotal);
+
 
 
 function updateTotal() {
+
     let total_price = parseFloat(totalField.getAttribute('data-initial'));
     const selectedRadio = document.querySelector('input[name="shipping_price"]:checked');
     if (selectedRadio) {

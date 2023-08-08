@@ -1,7 +1,7 @@
 from django.db import models
 from mongoengine import *
 from django.utils.text import slugify
-
+import datetime
 # Create your models here.
 
 
@@ -14,8 +14,13 @@ class Product(Document):
     description = StringField()
     image_url = StringField()
     slug = StringField(unique=True)
+    created_at = DateTimeField()
+    modified_at = DateTimeField()
 
     def save(self, *args, **kwargs):
+        if not self.id:  # If the object is being created
+            self.created_at = datetime.datetime.now()
+        self.modified_at = datetime.datetime.now()
         # Generate and set the slug before saving the object
         if not self.slug:
             self.slug = slugify(self.name)
@@ -36,8 +41,8 @@ class User(Document):
 
 
 class CartItem(Document):
-    user_id=StringField()
-    session_key=StringField()
+    user_id = StringField()
+    session_key = StringField()
     product = ReferenceField(Product)
     quantity = IntField(default=0)
     meta = {
@@ -48,6 +53,7 @@ class CartItem(Document):
             {'fields': ['session_key']},
         ]
     }
+
 
 class Order(Document):
     cart_item = ReferenceField(CartItem)
@@ -61,3 +67,12 @@ class Order(Document):
     district_address = StringField()
     pay_method = StringField()
     sub_total = IntField(default=0)
+    created_at = DateTimeField()
+    modified_at = DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # If the object is being created
+            self.created_at = datetime.datetime.now()
+        self.modified_at = datetime.datetime.now()
+
+        super(Product, self).save(*args, **kwargs)
