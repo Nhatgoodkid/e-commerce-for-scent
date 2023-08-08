@@ -74,6 +74,7 @@ TEMPLATES = [
                 # <-- our custom context processor
                 'scent.context_processors.cart_quantity',
                 'scent.context_processors.user_info',
+                'scent.context_processors.shipping_price',
             ],
         },
     },

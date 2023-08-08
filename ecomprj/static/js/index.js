@@ -59,27 +59,7 @@ function priceBarSetting() {
     };
 }
 
-//---SHOWING LIST LOCATION---//
-const locations = [];
-
-document.querySelectorAll('.location_dropdown-item').forEach((span) => {
-    const location = span.dataset.val;
-    if (!locations.includes(location)) {
-        locations.push(location);
-    }
-});
-
-$('#list_location').empty();
-$.map(locations, function (e, i) {
-    $('#list_location').append(`
-        <li><span class="location_dropdown-item dropdown-item" data-value="${e}" onclick="getValLocation('${e}')">${e}</span></li>
-    `);
-});
-//---SHOWING ROOM MATCH LOCATION SELECTED---//
-function getValLocation(e) {
-    $('#input_location').val(e);
-}
-
+//---RELOAD TOTAL QUANTITY WHEN ACTION ADD-TO-CART IS POSTED---//
 function reloadTotalQuantity(totalQuantity) {
     // Update the badge value with the new totalQuantity
     $('.badge').text(totalQuantity);
@@ -88,22 +68,44 @@ function reloadTotalQuantity(totalQuantity) {
 function addToCart(productSlug) {
     const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
     fetch(`/add-to-cart/${productSlug}`, {
-        method: 'POST', 
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken,
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.total_quantity)
-        // Reload the total quantity in the header
-        $('.badge').text(data.total_quantity);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.total_quantity)
+            // Reload the total quantity in the header
+            $('.badge').text(data.total_quantity);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
+
+//---UPDATE TOTAL PRICE BASED ON THE LOCATION---//
+const innerRadio = document.getElementById('inner');
+const outerRadio = document.getElementById('outer');
+const totalField = document.getElementById('total_field');
+
+innerRadio.addEventListener('change', updateTotal);
+outerRadio.addEventListener('change', updateTotal);
+
+
+function updateTotal() {
+    let total_price = parseFloat(totalField.getAttribute('data-initial'));
+    const selectedRadio = document.querySelector('input[name="shipping_price"]:checked');
+    if (selectedRadio) {
+        const selectedPrice = parseFloat(selectedRadio.value);
+
+        total_price = total_price + selectedPrice;
+
+        totalField.textContent = total_price.toFixed(2) + ' VNĐ';
+    }
+}
+
 
 $(document).ready(function () {
     $('#loaderContent').hide();

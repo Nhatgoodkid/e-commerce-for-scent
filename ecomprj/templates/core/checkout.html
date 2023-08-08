@@ -58,6 +58,20 @@
               <td colspan="2">SUBTOTAL</td>
               <td>{{total_price}}</td>
             </tr>
+            <tr>
+              <td colspan="2">SHIPPING</td>
+              <td>
+                <input type="radio" id="inner" name="shipping_price" value="{{inner_price}}">
+                <label for="inner">Nội thành: {{inner_price}} VNĐ</label><br/>
+                <input type="radio" id="outer" name="shipping_price" value="{{outer_price}}">
+                <label for="inner">Ngoại thành: {{outer_price}} VNĐ</label><br/>
+              </td>
+
+            </tr>
+            <tr>
+              <td colspan="2">TOTAL</td>
+              <td id="total_field" data-initial="{{total_price}}">{{total_price}}</td>
+            </tr>
           </tbody>
         </table>
         <div class="text-right mt-5 ">

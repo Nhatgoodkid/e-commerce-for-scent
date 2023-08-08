@@ -25,3 +25,9 @@ def user_info(request):
         except User.DoesNotExist:
             pass
     return {'user': user}
+
+def shipping_price(request):
+    inner_price = 45000
+    outer_price = 60000
+    return {'inner_price': inner_price,
+            'outer_price': outer_price}
