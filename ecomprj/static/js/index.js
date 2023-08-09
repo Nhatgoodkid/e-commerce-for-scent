@@ -89,9 +89,7 @@ function addToCart(productSlug) {
 const innerRadio = document.getElementById('inner');
 const outerRadio = document.getElementById('outer');
 const totalField = document.getElementById('total_field');
-
-
-
+const totalFieldModal = document.getElementById('total_field_modal');
 
 function updateTotal() {
 
@@ -103,7 +101,9 @@ function updateTotal() {
         total_price = total_price + selectedPrice;
 
         totalField.textContent = total_price.toFixed(2) + ' VNĐ';
+        totalFieldModal.textContent = total_price.toFixed(2) + ' VNĐ';
     }
+    return total_price;
 }
 
 
@@ -177,8 +177,27 @@ $(document).ready(function () {
     let globalParams = {};
 
 
-    // ---SEARCH ALL FIELD OF ROOM MODEL---//
+    // --- PASS VALUE FROM INPUT TO PLACE ORDER MODAL---//
+    $('#launch-place-order').on('click', function () {
+        const firstNameValue = document.getElementById('firstName').value;
+        const lastNameValue = document.getElementById('lastName').value;
+        const phoneValue = document.getElementById('phone').value;
+        const emailValue = document.getElementById('email').value;
+        const cityAddressValue = document.getElementById('city_address').value;
+        const districtAddressValue = document.getElementById('district_address').value;
+        const streetAddressValue = document.getElementById('street_address').value;
 
+        const modalNameElement = document.querySelector('.fullname');
+        const modalPhoneElement = document.querySelector('.phone');
+        const modalEmailElement = document.querySelector('.order_email');
+        const modalAddressElement = document.querySelector('.address');
+        // Set the address in the modal
+        modalNameElement.textContent = `${firstNameValue} ${lastNameValue}`;
+        modalPhoneElement.textContent = `${phoneValue}`;
+        modalEmailElement.textContent = `${emailValue}`;
+        modalAddressElement.textContent = `${streetAddressValue} - ${districtAddressValue} - ${cityAddressValue}`;
+
+    })
 
 
     //---SORT PRICE DESC---//

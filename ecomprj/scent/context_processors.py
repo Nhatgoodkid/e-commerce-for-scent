@@ -26,6 +26,7 @@ def user_info(request):
             pass
     return {'user': user}
 
+
 def shipping_price(request):
     inner_price = 45000
     outer_price = 60000

@@ -75,4 +75,4 @@ class Order(Document):
             self.created_at = datetime.datetime.now()
         self.modified_at = datetime.datetime.now()
 
-        super(Product, self).save(*args, **kwargs)
+        super(Order, self).save(*args, **kwargs)
