@@ -1,5 +1,5 @@
 {% load static %}        
-        <div class="col-4 wrapper_content_booking1">
+        <div class="col col-md-4 wrapper_content_booking1">
             <div class="subFilter">
                 <div class="subFilter-item subFilter-item1">
                     <label for="barPrice" class="form-label">Price:</label>
@@ -18,10 +18,10 @@
                 <div class="greyLine"></div>
                 <div class="subFilter-item subFilter-item2">
                     <p class="filter-title">Product categories:</p>
-                    {% for product in kind %}
+                    {% for product in categories %}
                     <div class="form-check">
                         <input class="form-check-input" name="product-category" type="checkbox"
-                            id="product-category">
+                            id="product-category" value="{{product}}">
                         <label class="form-check-label" for="product-category-{{ forloop.counter }}">
                             {{product}}
                         </label>
@@ -31,40 +31,15 @@
                 <div class="greyLine"></div>
                 <div class="subFilter-item subFilter-item3">
                     <p class="filter-title">Kind of Scent:</p>
+                    {% for product in kind %}
                     <div class="form-check">
-                        <input class="form-check-input" name="kind" type="checkbox" value="Normal"
-                            id="serviceRoom1">
-                        <label class="form-check-label " for="serviceRoom1">
-                            Normal
+                        <input class="form-check-input" name="product-kind" type="checkbox"
+                            id="product-kind" value="{{product}}">
+                        <label class="form-check-label" for="product-kind-{{ forloop.counter }}">
+                            {{product}}
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="kind" type="checkbox" value="Standard"
-                            id="serviceRoom2">
-                        <label class="form-check-label " for="serviceRoom2">
-                            Standard
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="kind" type="checkbox" value="Deluxe"
-                            id="serviceRoom3">
-                        <label class="form-check-label " for="serviceRoom3">
-                            Deluxe
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="kind" type="checkbox" value="Superior"
-                            id="serviceRoom4">
-                        <label class="form-check-label " for="serviceRoom4">
-                            Superior
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="kind" type="checkbox" value="Suite" id="serviceRoom5">
-                        <label class="form-check-label " for="serviceRoom5">
-                            Suite
-                        </label>
-                    </div>
+                    {% endfor %}
                 </div>
                 <div class="greyLine"></div>
             </div>

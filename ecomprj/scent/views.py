@@ -212,14 +212,25 @@ def add_to_cart(request, product_slug, action):
 def product(request):
     product = Product.objects.all()
     kind = Product.objects.distinct('kind')
+    categories = Product.objects.distinct('category')
     sorted_kind = sorted(kind, key=lambda x: x.lower())
 
     sort_param = request.GET.get('sort')
     sort = 'price' if sort_param == 'low-price' else '-price' if sort_param == 'high-price' else None
     product = product.order_by(sort)
+
+    kinds_filter = request.GET.getlist('kind[]')
+    if kinds_filter:
+        product = product.filter(kind__in=kinds_filter)
+
+    categories_filter = request.GET.getlist('category[]')
+    if categories_filter:
+        product = product.filter(category__in=categories_filter)
+
     return render(request, 'core/product.html', {
         'product': product,
         'kind': sorted_kind,
+        'categories': categories,
     })
 
 # [GET] /product/:slug

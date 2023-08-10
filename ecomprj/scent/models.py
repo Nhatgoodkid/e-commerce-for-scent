@@ -11,6 +11,7 @@ class Product(Document):
     size = IntField()
     quantity = IntField()
     kind = StringField()
+    category = StringField()
     description = StringField()
     image_url = StringField()
     slug = StringField(unique=True)
