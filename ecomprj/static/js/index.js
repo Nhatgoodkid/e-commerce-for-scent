@@ -256,6 +256,30 @@ $(document).ready(function () {
     });
     let globalParams = {};
 
+    //---SHOWING FULL PRODUCT WHEN NO FILTER SELECTED---//
+    $('#inititalProduct').on('click', function () {
+        // Reset all field
+        $('#loaderContent').show();
+        globalParams = {}; // Reset globalParams object
+
+        const queryParams = $.param(globalParams); // Serialize globalParams into a query string
+        $.ajax({
+            type: 'GET',
+            url: `/product?${queryParams}`,
+            success: function (response) {
+                const $response = $(response);
+                $('#list-product').html($response.find('#list-product').html());
+                $('#loaderContent').hide();
+                $('.pagination-container').html(
+                    $response.find('.pagination-container').html(),
+                );
+                $('.listSort ul .list-group-item').removeClass('sortActive');
+                $('#inititalProduct').addClass('sortActive');
+            },
+        });
+    });
+
+
     //---SORT PRICE DESC---//
     $('#highPrice').on('click', function () {
         $('#loaderContent').show();
