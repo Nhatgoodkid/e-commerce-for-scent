@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import logout
 from django.http import JsonResponse
-from .models import Product, User, CartItem
+from .models import Product, User, CartItem, Order
 import random
 import string
 
@@ -257,6 +257,48 @@ def checkout_product(request):
     }
 
     return render(request, 'core/checkout.html', context)
+
+# [POST] /place_order/:user
+
+
+def place_order(request):
+    # Truy vấn CartItem từ database
+    user_id = request.session.get('user_id')
+    if user_id:
+        cart_items = CartItem.objects.filter(user_id=str(user_id))
+    else:
+        cart_items = CartItem.objects.filter(
+            session_key=request.session.session_key)
+
+    if not user_id and not request.session.session_key:
+        cart_items = []
+
+    if request.method=='POST':
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        city_address = request.POST.get('city_address')
+        district_address = request.POST.get('district_address')
+        street_address = request.POST.get('street_address')
+        sub_total = request.POST.get('sub_total')
+        pay_method = request.POST.get('pay_method')
+        order = Order(
+            cart_items = cart_items,
+            firstname = firstname,
+            lastname = lastname,
+            phone = phone,
+            email = email,
+            city_address = city_address,
+            district_address = district_address,
+            street_address = street_address,
+            sub_total = sub_total,
+            pay_method = pay_method
+        )
+        order.save()
+        # Delete the cart_items that have been saved in the Order
+        cart_items.delete()
+    return render(request, 'core/order_result.html')
 
 # [GET] /adm/product
 

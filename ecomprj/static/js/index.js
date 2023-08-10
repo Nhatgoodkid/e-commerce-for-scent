@@ -103,9 +103,7 @@ function updateTotal() {
         totalField.textContent = total_price.toFixed(2) + ' VNĐ';
         totalFieldModal.textContent = total_price.toFixed(2) + ' VNĐ';
     }
-    return total_price;
 }
-
 
 $(document).ready(function () {
     $('#loaderContent').hide();
@@ -177,7 +175,7 @@ $(document).ready(function () {
     let globalParams = {};
 
 
-    // --- PASS VALUE FROM INPUT TO PLACE ORDER MODAL---//
+    //---PASS VALUE FROM INPUT TO PLACE ORDER MODAL---//
     $('#launch-place-order').on('click', function () {
         const firstNameValue = document.getElementById('firstName').value;
         const lastNameValue = document.getElementById('lastName').value;
@@ -197,6 +195,48 @@ $(document).ready(function () {
         modalEmailElement.textContent = `${emailValue}`;
         modalAddressElement.textContent = `${streetAddressValue} - ${districtAddressValue} - ${cityAddressValue}`;
 
+    })
+
+    //---ADDING ORDER---//
+    $('#add-order').on('click', function (e) {
+        e.preventDefault();
+        const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+        $.ajax({
+            type: 'POST',
+            url: '/add/order',
+            data: {
+                firstname: $('#firstname').val(),
+                lastname: $('#lastname').val(),
+                username: $('#username').val(),
+                city_address: $('#city_address').val(),
+                district_address: $('#district_address').val(),
+                street_address: $('#street_address').val(),
+                phone: $('#phone').val(),
+                email: $('#email').val(),
+                pay_method: $('#pay_method').val(),
+                sub_total: parseInt(totalFieldModal.textContent)
+            },
+            headers: {
+                "X-CSRFToken": csrfToken,
+            },
+            success: function (response) {
+                if (response.err) {
+                    $('#flashMessage-danger')
+                        .text(response.errorMessage[0])
+                        .show()
+                        .delay(2000)
+                        .fadeOut();
+                    return;
+                }
+                $('#flashMessage-success')
+                    .text('Đặt hàng thành công!')
+                    .show()
+                    .delay(2000)
+                    .fadeOut();
+                setTimeout(() => {
+                }, 2000);
+            },
+        });
     })
 
 

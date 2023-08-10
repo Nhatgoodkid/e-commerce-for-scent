@@ -1624,13 +1624,18 @@ input[type='date']::-webkit-calendar-picker-indicator {
     
     
     .intro-2{
-    
+        font-family: Montserrat;
+
         font-size: 13px;
     }
 
     hr.new1 {
         border-top: 2px dashed #7bbdff;
         margin: 0.4rem 0;
+    }
+
+    h1{
+        font-family: Montserrat;
     }
 }
 

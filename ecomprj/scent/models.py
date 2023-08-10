@@ -56,9 +56,8 @@ class CartItem(Document):
 
 
 class Order(Document):
-    cart_item = ReferenceField(CartItem)
-    email = EmailField(required=True, unique=True)
-    password = StringField(required=True)
+    cart_items = ListField(ReferenceField(CartItem))
+    email = EmailField(required=True)
     firstname = StringField()
     lastname = StringField()
     phone = StringField()

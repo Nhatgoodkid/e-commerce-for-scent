@@ -9,6 +9,7 @@
         <p class="sub-title">BILLING & SHIPPING</p>
         <div class="row">
           <div class="col-lg-6">
+            {% csrf_token %}
             <label for="firstName" class="checkout">FIRST NAME:</label>
             <input type="text" class="form-control" name="firstName" id="firstName" value="{{user.firstname}}" required>
           </div>
@@ -44,6 +45,7 @@
           <thead class="thead">
             <tr>
               <th scope="col" class="tab-checkout">PRODUCT</th>
+              <th scope="col">NAME</th>
               <th scope="col">QUANTITY</th>
               <th scope="col">UNIT PRICE</th>
             </tr>
@@ -52,6 +54,7 @@
             {% for cart in cart_items %}
             <tr>
               <th scope="row"><img src="{% static cart.product.image_url|add:'.jpg' %}" class="d-block pre-image"></th>
+              <td>{{cart.product.name}}</td>
               <td>{{cart.quantity}}</td>
               <td>{{cart.product.price}}</td>
             </tr>
@@ -65,6 +68,7 @@
               <td>
                 <input type="radio" onchange="updateTotal()" id="inner" name="shipping_price" value="{{inner_price}}">
                 <label for="inner">Nội thành: {{inner_price}} VNĐ</label></input><br />
+
                 <input type="radio" onchange="updateTotal()" id="outer" name="shipping_price" value="{{outer_price}}">
                 <label for="outer">Ngoại thành: {{outer_price}} VNĐ</label></input><br />
               </td>
@@ -94,9 +98,9 @@
       <div class="modal-body ">
         <div class="text-right"> <i class="fa fa-close close" data-dismiss="modal"></i> </div>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4 d-flex align-items-center">
             <div class="text-center mt-2">
-              <img src="{% static '/images/place_order_img.jpg' %}" class="img-fluid">
+              <img src="{% static '/images/Candle-trollbeads-1.jpg' %}" class="img-fluid rounded-3">
             </div>
           </div>
           <!-- Body -->
@@ -158,11 +162,11 @@
                 <div>
                   <div class="justify-content-around">
                     <div>
-                      <input type="radio" name="paymentMethod" id="payLater">
+                      <input type="radio" name="pay_method" id="pay_method" value="COD" id="payLater" checked>
                       <label for="payLater" class="font-weight-bold fs-4">Pay later</label>
                     </div>
                     <div>
-                      <input type="radio" name="paymentMethod" id="visaCard" data-bs-toggle="collapse"
+                      <input type="radio" name="pay_method" id="pay_method" value="CART" id="visaCard" data-bs-toggle="collapse"
                         data-bs-target="#formVISA" aria-expanded="false" aria-controls="formVISA">
                       <label for="visaCard" class="font-weight-bold fs-4">VISA card</label>
                     </div>
@@ -183,7 +187,7 @@
                 </div>
                 <!-- Footer -->
                 <div class="mt-4 mb-5">
-                  <button class="btn btn-primary">Alright, confirm the form <i
+                  <button id="add-order" class="btn btn-primary">Alright, confirm the form <i
                       class="fa fa-long-arrow-right"></i></button>
                 </div>
               </div>
