@@ -261,11 +261,11 @@ $(document).ready(function () {
         $('#loaderContent').show();
         globalParams = {}; // Reset globalParams object
         globalParams.sort = 'high-price';
-        $.get('/booking', globalParams)
+        $.get('/product', globalParams)
             .done(function (response) {
                 // Display the response data on the page
                 const $response = $(response);
-                $('#listRoom').html($response.find('#listRoom').html());
+                $('#list-product').html($response.find('#list-product').html());
                 $('#loaderContent').hide();
                 $('.pagination-container').html(
                     $response.find('.pagination-container').html(),
@@ -285,11 +285,11 @@ $(document).ready(function () {
         $('#loaderContent').show();
         globalParams = {}; // Reset globalParams object
         globalParams.sort = 'low-price';
-        $.get('/booking', globalParams)
+        $.get('/product', globalParams)
             .done(function (response) {
                 // Display the response data on the page
                 const $response = $(response);
-                $('#listRoom').html($response.find('#listRoom').html());
+                $('#list-product').html($response.find('#list-product').html());
                 $('#loaderContent').hide();
                 $('.pagination-container').html(
                     $response.find('.pagination-container').html(),

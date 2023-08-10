@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
+from mongoengine.queryset.visitor import Q
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from .models import Product, User, CartItem, Order
@@ -212,6 +213,10 @@ def product(request):
     product = Product.objects.all()
     kind = Product.objects.distinct('kind')
     sorted_kind = sorted(kind, key=lambda x: x.lower())
+
+    sort_param = request.GET.get('sort')
+    sort = 'price' if sort_param == 'low-price' else '-price' if sort_param == 'high-price' else None
+    product = product.order_by(sort)
     return render(request, 'core/product.html', {
         'product': product,
         'kind': sorted_kind,
