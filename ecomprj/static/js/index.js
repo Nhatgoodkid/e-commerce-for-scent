@@ -74,9 +74,30 @@ function priceBarSetting() {
 
     rangePrice.oninput = function () {
         maxPrice.innerHTML = this.value;
+        fetch(`/product/?price=${this.value}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'text/html',
+            }
+        })
+            .then(response => response.text())
+            .then(data => {
+                const $data = $(data);
+                $('#list-product').html($data.find('#list-product').html());
+                $('#loaderContent').hide();
+                $('.pagination-container').html(
+                    $data.find('.pagination-container').html(),
+                );
+                $('.listSort ul .list-group-item').removeClass('sortActive');
+                $('#inititalProduct').addClass('sortActive');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 }
 
+priceBarSetting()
 //---RELOAD TOTAL QUANTITY WHEN ACTION ADD-TO-CART IS POSTED---//
 function reloadTotalQuantity(totalQuantity) {
     // Update the badge value with the new totalQuantity
@@ -244,7 +265,7 @@ $(document).ready(function () {
             }
         }
 
-        globalParams.category = categories  
+        globalParams.category = categories
         const queryParams = $.param(globalParams);
         $.ajax({
             type: 'GET',

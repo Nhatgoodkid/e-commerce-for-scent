@@ -4,13 +4,13 @@
                 <div class="subFilter-item subFilter-item1">
                     <label for="barPrice" class="form-label">Price:</label>
                     <input type="range" onchange="priceBarSetting()" class="form-range" id="barPrice"
-                        value="{{maxPrice}}" min="0" max="{{maxPrice}}">
+                        value="{{max_price}}" min="0" max="{{max_price}}">
                     <div class="d-flex justify-content-between mt-3">
                         <p>Min: <br>
                             <span id="minPrice" data-cur="">0</span>
                         </p>
-                        <p>Max: <br> <span id="maxPrice" data-val="{{maxPrice}}">
-
+                        <p>Max: <br> <span id="maxPrice" data-val="{{max_price}}">
+                            {{max_price}}
                             </span>
                         </p>
                     </div>

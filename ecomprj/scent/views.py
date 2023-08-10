@@ -215,22 +215,40 @@ def product(request):
     categories = Product.objects.distinct('category')
     sorted_kind = sorted(kind, key=lambda x: x.lower())
 
+    #Sort product based on price
     sort_param = request.GET.get('sort')
     sort = 'price' if sort_param == 'low-price' else '-price' if sort_param == 'high-price' else None
     product = product.order_by(sort)
 
     kinds_filter = request.GET.getlist('kind[]')
+    categories_filter = request.GET.getlist('category[]')
+    price_filter = request.GET.get('price')
+
+    # Finding the maximum price
+    max_price_result = Product.objects.aggregate(
+        {"$group": {"_id": None, "max_price": {"$max": "$price"}}}
+    )
+
     if kinds_filter:
         product = product.filter(kind__in=kinds_filter)
 
-    categories_filter = request.GET.getlist('category[]')
     if categories_filter:
         product = product.filter(category__in=categories_filter)
+
+    if price_filter:
+        price_filter = int(price_filter)
+        product = product.filter(price__lte=price_filter)
+
+    max_price = None
+    for result in max_price_result:
+        max_price = result['max_price']
+        break 
 
     return render(request, 'core/product.html', {
         'product': product,
         'kind': sorted_kind,
         'categories': categories,
+        'max_price': max_price,
     })
 
 # [GET] /product/:slug
