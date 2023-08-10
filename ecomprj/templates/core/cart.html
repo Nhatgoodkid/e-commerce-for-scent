@@ -2,6 +2,7 @@
 {% load static %}
 {% load custom_filters %}
 {% block content %}
+{% csrf_token %}
 <div class="container cart">
     <div class="row">
         <div class="col-lg-12">
@@ -11,6 +12,7 @@
                     <thead class="thead">
                         <tr>
                             <th scope="col" class="tab-checkout">PRODUCT</th>
+                            <th scope="col">NAME</th>
                             <th scope="col">QUANTITY</th>
                             <th scope="col">UNIT PRICE</th>
                         </tr>
@@ -21,6 +23,8 @@
                             <th scope="row"><img src="{% static cart_item.product.image_url|add:'.jpg' %}"
                                     class="d-block cart-image">
                             </th>
+                            <td>{{ cart_item.product.name}}</td>
+
                             <td>
                                 <div class="wrap_basic_filter4">
                                     <div class="basic_filter_item basic_filter4 mr-5">
@@ -36,12 +40,12 @@
                                         <div class="">
                                             <span class="text-dark">Adjust</span>
                                             <div class="btn btn-success" id=""
-                                                onclick="updateQuantify('down', 1,'{{ cart_item.id }}')">-</div>
+                                                onclick="updateQuantify('down', 1,'{{ cart_item.id }}','{{cart_item.product.slug}}')">-</div>
                                             <input class="controller_person_input" type="text" name=""
                                                 id="quantifyQuantity{{ cart_item.id }}" value="{{ cart_item.quantity }}"
                                                 size="3" readonly>
                                             <div class="btn btn-success" id=""
-                                                onclick="updateQuantify('up', 1,'{{ cart_item.id }}')">+</div>
+                                                onclick="updateQuantify('up', 1,'{{ cart_item.id }}','{{cart_item.product.slug}}')">+</div>
                                         </div>
                                         <div class="btn btn-danger w-100 mt-3 text-center" id="close_controller_person">
                                             Close

@@ -30,23 +30,41 @@ $(document).on('click', function (e) {
 });
 
 // Function to increment/decrement the value in "controller_person_input" and "showQuantity"
-function updateQuantify(kind, value, cartItemId) {
+function updateQuantify(kind, value, cartItemId, productSlug) {
     const showQuantityInput = document.getElementById(`showQuantity${cartItemId}`);
     const quantifyQuantityInput = document.getElementById(`quantifyQuantity${cartItemId}`);
 
     quantifyQuantityInput.value = showQuantityInput.value;
+    const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
     if (kind === 'up') {
         const currentValue = parseInt(showQuantityInput.value, 10);
         showQuantityInput.value = currentValue + value;
         quantifyQuantityInput.value = currentValue + value;
+
     } else if (kind === 'down') {
         const currentValue = parseInt(showQuantityInput.value, 10);
-        if (currentValue > 1) {
+        if (currentValue >= 1) {
             showQuantityInput.value = currentValue - value;
             quantifyQuantityInput.value = currentValue - value;
         }
     }
+
+    fetch(`/add-to-cart/${productSlug}/${kind}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Reload the total quantity in the header
+            $('.badge').text(data.total_quantity);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function priceBarSetting() {
@@ -67,7 +85,7 @@ function reloadTotalQuantity(totalQuantity) {
 
 function addToCart(productSlug) {
     const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-    fetch(`/add-to-cart/${productSlug}`, {
+    fetch(`/add-to-cart/${productSlug}/up`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -76,7 +94,6 @@ function addToCart(productSlug) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data.total_quantity)
             // Reload the total quantity in the header
             $('.badge').text(data.total_quantity);
         })
@@ -117,63 +134,6 @@ $(document).ready(function () {
             $('.card2').addClass('card2-animation');
         }
     });
-    let currentPage = 1;
-
-    //Ajax for pagination
-    $('.pagination-container').on('click', 'a.page-link', function (e) {
-        e.preventDefault();
-        $('#loaderContent').show();
-        currentPage = $(this).data('page');
-        globalParams.page = currentPage; // Add page parameter to globalParams
-        const queryParams = $.param(globalParams); // Serialize globalParams into a query string
-        $.ajax({
-            type: 'GET',
-            url: `/booking?${queryParams}`,
-            success: function (data) {
-                $('html, body').animate(
-                    {
-                        scrollTop: $('#listRoom').offset().top,
-                    },
-                    100,
-                );
-                const $data = $(data);
-                $('#listRoom').html($data.find('#listRoom').html());
-                $('#loaderContent').hide();
-                $('.pagination-container').html(
-                    $data.find('.pagination-container').html(),
-                );
-            },
-        });
-    });
-
-    // ---SHOWING ROOM MATCH FILTER SELECTED---//
-    const kind = [];
-    const star = [];
-    $('input[name="kind"]').on('click', function () {
-        const value = $(this).val();
-        if ($(this).prop('checked')) {
-            kind.push(value);
-        } else {
-            const index = kind.indexOf(value);
-            if (index > -1) {
-                kind.splice(index, 1);
-            }
-        }
-    });
-
-    $('input[name="numberStar"]').on('click', function () {
-        const value = $(this).val();
-        if ($(this).prop('checked')) {
-            star.push(value);
-        } else {
-            const index = star.indexOf(value);
-            if (index > -1) {
-                star.splice(index, 1);
-            }
-        }
-    });
-    let globalParams = {};
-
 
     //---PASS VALUE FROM INPUT TO PLACE ORDER MODAL---//
     $('#launch-place-order').on('click', function () {
@@ -239,6 +199,62 @@ $(document).ready(function () {
         });
     })
 
+    let currentPage = 1;
+
+    //Ajax for pagination
+    $('.pagination-container').on('click', 'a.page-link', function (e) {
+        e.preventDefault();
+        $('#loaderContent').show();
+        currentPage = $(this).data('page');
+        globalParams.page = currentPage; // Add page parameter to globalParams
+        const queryParams = $.param(globalParams); // Serialize globalParams into a query string
+        $.ajax({
+            type: 'GET',
+            url: `/booking?${queryParams}`,
+            success: function (data) {
+                $('html, body').animate(
+                    {
+                        scrollTop: $('#listRoom').offset().top,
+                    },
+                    100,
+                );
+                const $data = $(data);
+                $('#listRoom').html($data.find('#listRoom').html());
+                $('#loaderContent').hide();
+                $('.pagination-container').html(
+                    $data.find('.pagination-container').html(),
+                );
+            },
+        });
+    });
+
+    // ---SHOWING ROOM MATCH FILTER SELECTED---//
+    const kind = [];
+    const star = [];
+    $('input[name="kind"]').on('click', function () {
+        const value = $(this).val();
+        if ($(this).prop('checked')) {
+            kind.push(value);
+        } else {
+            const index = kind.indexOf(value);
+            if (index > -1) {
+                kind.splice(index, 1);
+            }
+        }
+    });
+
+    $('input[name="numberStar"]').on('click', function () {
+        const value = $(this).val();
+        if ($(this).prop('checked')) {
+            star.push(value);
+        } else {
+            const index = star.indexOf(value);
+            if (index > -1) {
+                star.splice(index, 1);
+            }
+        }
+    });
+    let globalParams = {};
 
     //---SORT PRICE DESC---//
     $('#highPrice').on('click', function () {

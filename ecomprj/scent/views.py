@@ -160,7 +160,7 @@ def cart(request):
 # [POST] /add-to-cart
 
 
-def add_to_cart(request, product_slug):
+def add_to_cart(request, product_slug, action):
     user_id = request.session.get('user_id')
 
     try:
@@ -178,8 +178,14 @@ def add_to_cart(request, product_slug):
             cart_item = CartItem.objects(
                 session_key=session_key, product=product).first()
 
+        # Adjust quantity based on action
         if cart_item:
-            cart_item.update(inc__quantity=1)
+            if action == 'up':
+                cart_item.update(inc__quantity=1)
+            elif action == 'down' and cart_item.quantity >= 1:
+                cart_item.update(dec__quantity=1)
+            else:
+                cart_item.delete()
         else:
             if user_id:
                 cart_item = CartItem(
@@ -273,7 +279,7 @@ def place_order(request):
     if not user_id and not request.session.session_key:
         cart_items = []
 
-    if request.method=='POST':
+    if request.method == 'POST':
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
         phone = request.POST.get('phone')
@@ -284,20 +290,21 @@ def place_order(request):
         sub_total = request.POST.get('sub_total')
         pay_method = request.POST.get('pay_method')
         order = Order(
-            cart_items = cart_items,
-            firstname = firstname,
-            lastname = lastname,
-            phone = phone,
-            email = email,
-            city_address = city_address,
-            district_address = district_address,
-            street_address = street_address,
-            sub_total = sub_total,
-            pay_method = pay_method
+            cart_items=cart_items,
+            firstname=firstname,
+            lastname=lastname,
+            phone=phone,
+            email=email,
+            city_address=city_address,
+            district_address=district_address,
+            street_address=street_address,
+            sub_total=sub_total,
+            pay_method=pay_method
         )
         order.save()
         # Delete the cart_items that have been saved in the Order
         cart_items.delete()
+
     return render(request, 'core/order_result.html')
 
 # [GET] /adm/product
