@@ -67,35 +67,39 @@ function updateQuantify(kind, value, cartItemId, productSlug) {
         });
 }
 
-function priceBarSetting() {
-    var rangePrice = document.getElementById('barPrice');
-    var maxPrice = document.getElementById('maxPrice');
-    maxPrice.innerHTML = rangePrice.value; // Display the default slider value
+document.addEventListener("DOMContentLoaded", function() {
+    function priceBarSetting() {
+        var rangePrice = document.getElementById('barPrice');
+        var maxPrice = document.getElementById('maxPrice');
+        maxPrice.innerHTML = rangePrice.value; // Display the default slider value
 
-    rangePrice.oninput = function () {
-        maxPrice.innerHTML = this.value;
-        fetch(`/product/?price=${this.value}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'text/html',
-            }
-        })
-            .then(response => response.text())
-            .then(data => {
-                const $data = $(data);
-                $('#list-product').html($data.find('#list-product').html());
-                $('#loaderContent').hide();
-                $('.pagination-container').html(
-                    $data.find('.pagination-container').html(),
-                );
-                $('.listSort ul .list-group-item').removeClass('sortActive');
-                $('#inititalProduct').addClass('sortActive');
+        rangePrice.oninput = function () {
+            maxPrice.innerHTML = this.value;
+            fetch(`/product/?price=${this.value}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'text/html',
+                }
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    };
-}
+                .then(response => response.text())
+                .then(data => {
+                    const $data = $(data);
+                    $('#list-product').html($data.find('#list-product').html());
+                    $('#loaderContent').hide();
+                    $('.pagination-container').html(
+                        $data.find('.pagination-container').html(),
+                    );
+                    $('.listSort ul .list-group-item').removeClass('sortActive');
+                    $('#inititalProduct').addClass('sortActive');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
+    }
+
+    priceBarSetting();
+});
 
 //---RELOAD TOTAL QUANTITY WHEN ACTION ADD-TO-CART IS POSTED---//
 function reloadTotalQuantity(totalQuantity) {
@@ -800,5 +804,4 @@ $(document).ready(function () {
 
     // Cập nhật đồng hồ mỗi giây
     setInterval(displayTime, 1000);
-    priceBarSetting()
 });
