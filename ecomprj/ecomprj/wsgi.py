@@ -20,3 +20,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecomprj.settings')
 connect(host='mongodb+srv://teky:C41jumox6pvNgtI8@note-page.vj9hypl.mongodb.net/')
 
 application = get_wsgi_application()
+
+app = application

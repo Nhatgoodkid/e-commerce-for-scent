@@ -1,0 +1,4 @@
+django
+mongoengine
+django-mongoengine
+whitenoise
