@@ -97,7 +97,6 @@ function priceBarSetting() {
     };
 }
 
-priceBarSetting()
 //---RELOAD TOTAL QUANTITY WHEN ACTION ADD-TO-CART IS POSTED---//
 function reloadTotalQuantity(totalQuantity) {
     // Update the badge value with the new totalQuantity
@@ -801,4 +800,5 @@ $(document).ready(function () {
 
     // Cập nhật đồng hồ mỗi giây
     setInterval(displayTime, 1000);
+    priceBarSetting()
 });
