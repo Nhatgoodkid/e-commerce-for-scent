@@ -1698,7 +1698,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .management_body1 {
     height: calc(100vh + 100px);
-    background-color: var(--blue-primary);
+    background-color: var(--bg-nav);
     z-index: 1;
     position: absolute;
     top: 89px;
@@ -1706,7 +1706,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .table-group .list-group-item {
-    background-color: var(--blue-primary);
+    background-color: var(--bg-nav);
     padding: 12px 0;
     padding-left: 6rem;
     display: flex;

@@ -349,6 +349,14 @@ def product_management(request):
 
     return render(request, 'admin_core/product.html', {'product': product})
 
+# [GET] /adm/customers
+
+
+def customers_management(request):
+    user = User.objects.all()
+
+    return render(request, 'admin_core/user.html', {'users': user})
+
 # [POST] /adm/add/product
 
 
