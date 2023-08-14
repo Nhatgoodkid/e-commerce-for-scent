@@ -485,7 +485,7 @@ $(document).ready(function () {
         $('#resName').text(nameRes);
         $('#delDateFrom').text(dateFrom);
         $('#delDateTo').text(dateTo);
-        deleteForm.action = `/admin/delete/reservation/${id}?_method=DELETE`;
+        deleteForm.action = `/admin/delete/reservation/${id}`;
     });
 
     //------DELETE USER ADMIN-----------
@@ -496,7 +496,7 @@ $(document).ready(function () {
         var nameCus = button.data('name'); // Extract info from data-* attributes
         //Pass data to edit field
         $('#delUserName').text(nameCus);
-        deleteForm.action = `/admin/delete/customer/${id}?_method=DELETE`;
+        deleteForm.action = `/adm/delete/customer/${id}?_method=DELETE`;
     });
 
 

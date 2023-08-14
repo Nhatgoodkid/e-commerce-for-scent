@@ -349,13 +349,31 @@ def product_management(request):
 
     return render(request, 'admin_core/product.html', {'product': product})
 
-# [GET] /adm/customers
+# [GET] /adm/product
 
 
 def customers_management(request):
     user = User.objects.all()
 
     return render(request, 'admin_core/user.html', {'users': user})
+
+# [DELETE] /adm/customers
+
+
+def delete_customer(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return redirect('/adm/customers')
+
+    if request.method == 'POST':
+        # If the _method is "PUT", treat it as a PUT request
+        if request.POST.get('_method') == 'DELETE':
+            # Delete the product
+            user.delete()
+
+    # Redirect to product management
+    return redirect('/adm/customers')
 
 # [POST] /adm/add/product
 

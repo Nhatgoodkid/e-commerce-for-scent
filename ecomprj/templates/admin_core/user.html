@@ -109,10 +109,12 @@
                 </button>
             </div>
             <form name="delUserModal" method="POST">
+                {% csrf_token %}
                 <!-- Modal body -->
                 <div class="modal-body">
                     Are you sure delete <strong id="delUserName"></strong>?
                 </div>
+                <input type="hidden" name="_method" value="DELETE">
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
