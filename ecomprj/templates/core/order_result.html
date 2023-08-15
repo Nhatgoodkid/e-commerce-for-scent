@@ -1,5 +1,54 @@
 {% extends 'partials/header.html' %}
 {% load static %}
 {% block content %}
-<h1>Thành công</h1>
+<div class="wrapper_detail">
+    <div class="process-wrap text-center">
+        <div class="process-main row">
+            <div class="col-4 ">
+                <div class="process-step-cont">
+                    <div>
+                        <div class="process-step step-1 activeProcessStep">1</div>
+                        <span class="process-label">Step 1</span>
+                    </div>
+                </div>
+                <div class="process-bar activeProcessStep"></div>
+            </div>
+            <div class="col-4 ">
+                <div class="process-step-cont">
+                    <div>
+                        <div class="process-step step-2 activeProcessStep">2</div>
+                        <span class="process-label">Step 2</span>
+                    </div>
+                </div>
+                <div class="process-bar activeProcessStep"></div>
+            </div>
+            <div class="col-4">
+                <div class="process-step-cont">
+                    <div>
+                        <div class="process-step step-3 activeProcessStep">3</div>
+                        <span class="process-label">Step 3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center my-5">
+        <img src="{% static '/images/check.png' %}" alt="" width="150">
+    </div>
+    <div class="py-5 alert alert-info text-center sloganBook mt-0">
+        <h1> Congratulations, successful ordering !</h1>
+        <h5 class="fs-3"><i>Enjoy your time.</i></h5>
+    </div>
+    <p class="text-center">
+        <a class="fs-1 btn btn-lg btn-secondary" data-bs-toggle="collapse" href="#contentId" aria-expanded="false"
+            aria-controls="contentId">
+            Show your order
+        </a>
+    </p>
+    <div class="collapse" id="contentId">
+
+    </div>
+
+</div>
+<button class="moveToTop" id="moveToTop">&#9650;</button>
 {% endblock %}

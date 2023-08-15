@@ -1,0 +1,241 @@
+{% extends "layout/admin_base.html" %}
+{% load static %}
+{% block content %}
+<div class="background_table">
+    <div class="header_table">
+        <div>
+            <h1 class="mb-4">Products</h1>
+            <div class="d-flex justify-content-between">
+                <div class="filter_table py-0 d-flex">
+                    <input type="text" class="search_table border border-secondary border-1">
+                    <div class="btn_search btn btn-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </div>
+
+                    <div class="dropdown open ml-3">
+                        <button class="btn btn-lg btn-primary dropdown-toggle" type="button" id="triggerId"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Show
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="triggerId">
+                            <a class="dropdown-item" href="/Admin/Rooms/0"></a>
+                            <a class="dropdown-item" href="/Admin/Rooms/">4-6</a>
+                            <a class="dropdown-item" href="/Admin/Rooms/">7-9</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add_Room">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addNewModal">
+                        Add new
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog"
+                        aria-labelledby="addNewModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title text-success" id="addNewModalLabel">Add a new product</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body px-5 my-4">
+                                    <div>
+                                        <form action="/adm/add/product" method="post">
+                                            {% csrf_token %}
+                                            <label for="nameRoom">Name:</label>
+                                            <input type="text" class="form-control" name="name" id="name">
+
+                                            <label for="kind">Kind:</label>
+                                            <input type="text" class="form-control" name="kind" id="kind">
+
+                                            <label for="quantity">Quantity:</label>
+                                            <input type="number" class="form-control" name="quantity" id="quantity">
+
+                                            <label for="size">Size:</label>
+                                            <input type="number" class="form-control" name="size" id="size">
+
+                                            <div>
+                                                <label for="description">Description:</label>
+                                                <textarea class="form-control" name="description" id="description"
+                                                    cols="50" rows="3"></textarea>
+                                            </div>
+
+                                            <label for="price">Price:</label>
+                                            <input type="number" class="form-control" name="price" id="price">
+
+                                            <label for="image">Image:</label>
+                                            <input type="text" class="form-control" name="image_url" id="image">
+                                    </div>
+                                </div>
+                                <div class="modal-footer mt-4">
+                                    <button id="btnInsertRoom" type="submit"
+                                        class="btn btn-primary btn-lg w-100">Add</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="body_table overflow-auto">
+        <div class="">
+            <table class=" table-striped table_rooms
+            table-hover	
+            table-borderless">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>#</th>
+                        <th>Name Room</th>
+                        <th>Kind</th>
+                        <th>Quantity</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider" id="bodyRooms">
+                    {% for product in product %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.kind }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.size }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>
+                            <textarea class="description-textarea" cols="20" rows="3" readonly>
+                                    {% if product.description|length > 100 %}
+                                        {{ product.description|slice:":100" }}...
+                                    {% else %}
+                                        {{ product.description }}
+                                    {% endif %}
+                                </textarea>
+                        </td>
+                        <td>
+                            <textarea class="image-url-textarea" rows="3" readonly>
+                                    {% if product.image_url|length > 100 %}
+                                        {{ product.image_url|slice:":100" }}...
+                                    {% else %}
+                                        {{ product.image_url }}
+                                    {% endif %}
+                                </textarea>
+                        </td>
+                        <td>
+                            <a class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal"
+                                data-id="{{ product.id }}" data-name="{{ product.name }}" data-kind="{{ product.kind }}"
+                                data-quantity="{{ product.quantity }}" data-size="{{ product.size }}"
+                                data-price="{{ product.price }}" data-image="{{ product.image_url }}"
+                                data-description="{{ product.description }}">Edit |</a>
+                            <a class="btn-del" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                data-id="{{ product.id }}" data-name="{{ product.name }}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- The Delete Modal -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete confirmation</h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form name="deleteForm" method="post">
+                    {% csrf_token %}
+                    <p>Are you sure delete <strong id="roomName"></strong>?</p>
+                    <input type="hidden" name="_method" value="DELETE">
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-lg" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success btn-lg"> Yes,
+                    delete </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- The Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="editForm" method="post">
+                    {% csrf_token %}
+                    <label for="nameRoom">Name:</label>
+                    <input type="text" class="form-control" name="name" id="editname">
+
+                    <label for="kind">Kind:</label>
+                    <input type="text" class="form-control" name="kind" id="editkind">
+
+                    <label for="size">Size:</label>
+                    <input type="number" class="form-control" name="size" id="editsize">
+
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" class="form-control" name="quantity" id="editquantity">
+
+                    <label for="image">Image:</label>
+                    <input type="text" class="form-control" name="image" id="editimage">
+
+                    <div>
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" name="description" id="editdescription" cols="30"
+                            rows="4"></textarea>
+                    </div>
+
+                    <label for="price">Price:</label>
+                    <input type="number" class="form-control" name="price" id="editprice">
+
+                    <label for="status">Status:</label>
+                    <select id="status" class="form-control" name="status">
+                        <option value="1">Available</option>
+                        <option value="0">Unavailable</option>
+                    </select>
+                    <input type="hidden" name="_method" value="PUT">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

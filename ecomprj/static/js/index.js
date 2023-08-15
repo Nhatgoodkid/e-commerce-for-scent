@@ -218,6 +218,7 @@ $(document).ready(function () {
                     .delay(2000)
                     .fadeOut();
                 setTimeout(() => {
+                    window.location.href = '/result/place_order';
                 }, 2000);
             },
         });

@@ -298,7 +298,12 @@ def checkout_product(request):
 
     return render(request, 'core/checkout.html', context)
 
-# [POST] /place_order/:user
+# [GET] result/place_order
+
+def order_result(request):
+    return render(request, 'core/order_result.html')
+
+# [POST] add/place_order/:user
 
 
 def place_order(request):
@@ -339,7 +344,7 @@ def place_order(request):
         # Delete the cart_items that have been saved in the Order
         cart_items.delete()
 
-    return render(request, 'core/order_result.html')
+    return redirect('/result/place_order')
 
 # [GET] /adm/product
 
@@ -349,7 +354,7 @@ def product_management(request):
 
     return render(request, 'admin_core/product.html', {'product': product})
 
-# [GET] /adm/product
+# [GET] /adm/customers
 
 
 def customers_management(request):
@@ -357,7 +362,7 @@ def customers_management(request):
 
     return render(request, 'admin_core/user.html', {'users': user})
 
-# [DELETE] /adm/customers
+# [DELETE] /adm/delete/customers
 
 
 def delete_customer(request, user_id):
