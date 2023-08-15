@@ -420,73 +420,39 @@ $(document).ready(function () {
         deleteForm.action = `/adm/delete/product/${id}`;
     });
 
-    //------EDIT RESERVATION ADMIN-----------
-    $('#editReservationModal').on('show.bs.modal', function (event) {
-        var editResForm = document.forms['editResForm'];
+    //------EDIT ORDER ADMIN-----------
+    $('#editOrderModal').on('show.bs.modal', function (event) {
+        var editResForm = document.forms['editOrderForm'];
         var button = $(event.relatedTarget); // Button that triggered the modal
         var id = button.data('id');
-        var nameUser = button.data('name'); // Extract info from data-* attributes
         var email = button.data('email');
         var phone = button.data('phone');
-        var location = button.data('location');
-        var nameRoom = button.data('room');
-        var adult = button.data('adult');
-        var children = button.data('children');
+        var location = button.data('address');
+        var pay_method = button.data('pay');
         var price = button.data('price');
-        var dateFrom = button.data('from');
-        var formattedDateFrom = new Date(dateFrom)
-            .toISOString()
-            .substring(0, 10);
-        var dateTo = button.data('to');
-        var formattedDateTo = new Date(dateTo).toISOString().substring(0, 10);
-        var totalPrice = button.data('total');
-        var extraService = button.data('service');
-        $('#edit-extraService1').prop('checked', false);
-        $('#edit-extraService2').prop('checked', false);
-        $('#edit-extraService1').prop(
-            'checked',
-            extraService === 30 || extraService === [30, 15].toString(),
-        );
-        $('#edit-extraService2').prop(
-            'checked',
-            extraService === 15 || extraService === [30, 15].toString(),
-        );
-        var status = button.data('status');
-        if (status == 0) {
-            $('#edit-status option[value="0"]').prop('selected', true);
-        } else if (status == 1) {
-            $('#edit-status option[value="1"]').prop('selected', true);
-        }
+        var date = button.data('day');
+
 
         //Pass data to edit field
-        $('#edit-name').val(nameUser);
         $('#edit-email').val(email);
         $('#edit-phone').val(phone);
         $('#edit-location').val(location);
-        $('#edit-nameRoom').val(nameRoom);
-        $('#edit-adult').val(adult);
-        $('#edit-children').val(children);
         $('#edit-price').val(price);
-        $('#edit-dateFrom').val(formattedDateFrom);
-        $('#edit-dateTo').val(formattedDateTo);
-        $('#edit-totalPrice').val(totalPrice);
-        $('#edit-extraService').val(extraService);
-        editResForm.action = `/admin/edit/reservation/${id}?_method=PUT`;
+        $('#edit-pay_method').val(pay_method);
+        $('#edit-dateTo').val(date);
+        editResForm.action = `/adm/edit/order/${id}`;
     });
 
-    //------DELETE RESERVATION ADMIN-----------
-    $('#deleteReservationModal').on('show.bs.modal', function (event) {
-        var deleteForm = document.forms['delResForm'];
+    //------DELETE ORDER ADMIN-----------
+    $('#deleteOrderModal').on('show.bs.modal', function (event) {
+        var deleteForm = document.forms['deleteOrderForm'];
         var button = $(event.relatedTarget); // Button that triggered the modal
         var id = button.data('id');
-        var nameRes = button.data('name'); // Extract info from data-* attributes
-        var dateFrom = button.data('from');
-        var dateTo = button.data('to');
+        var date = button.data('date');
         //Pass data to edit field
-        $('#resName').text(nameRes);
-        $('#delDateFrom').text(dateFrom);
-        $('#delDateTo').text(dateTo);
-        deleteForm.action = `/admin/delete/reservation/${id}`;
+        $('#order-id').text(id);
+        $('#date-order').text(date);
+        deleteForm.action = `/adm/delete/order/${id}`;
     });
 
     //------DELETE USER ADMIN-----------

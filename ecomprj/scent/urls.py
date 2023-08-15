@@ -17,6 +17,7 @@ urlpatterns = [
     path("product/<slug:product_slug>", views.product_details),
     path("adm/delete/customer/<str:user_id>", views.delete_customer),
     path("adm/customers", views.customers_management),
+    path("adm/orders", views.order_management),
     path("adm/product", views.product_management),
     path("adm/add/product", views.add_product),
     path("adm/edit/product/<str:product_id>", views.edit_product),

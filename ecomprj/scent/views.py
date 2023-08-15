@@ -335,15 +335,6 @@ def place_order(request):
 
     return redirect('/result/place_order')
 
-# [GET] /adm/product
-def product_management(request):
-    if is_admin_user(request):
-
-        product = Product.objects.all()
-
-        return render(request, 'admin_core/product.html', {'product': product})
-    return redirect('/')
-
 # [GET] /adm/customers
 def customers_management(request):
     if is_admin_user(request):
@@ -368,6 +359,25 @@ def delete_customer(request, user_id):
 
     # Redirect to product management
     return redirect('/adm/customers')
+
+# [GET] /adm/product
+def product_management(request):
+    if is_admin_user(request):
+
+        product = Product.objects.all()
+
+        return render(request, 'admin_core/product.html', {'product': product})
+    return redirect('/')
+
+# [GET] /adm/order
+def order_management(request):
+    if is_admin_user(request):
+
+        orders = Order.objects.all()
+        # Tạo một danh sách để chứa các cart_items tương ứng với mỗi order
+
+        return render(request, 'admin_core/order.html', {'orders': orders})
+    return redirect('/')
 
 # [POST] /adm/add/product
 def add_product(request):

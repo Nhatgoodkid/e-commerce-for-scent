@@ -4,7 +4,7 @@
 <div class="background_table">
     <div class="header_table">
         <div>
-            <h1 class="mb-4">Products</h1>
+            <h1 class="mb-4">Orders</h1>
             <div class="d-flex justify-content-between">
                 <div class="filter_table py-0 d-flex">
                     <input type="text" class="search_table border border-secondary border-1">
@@ -22,9 +22,9 @@
                             Show
                         </button>
                         <div class="dropdown-menu" aria-labelledby="triggerId">
-                            <a class="dropdown-item" href="/Admin/Rooms/0"></a>
-                            <a class="dropdown-item" href="/Admin/Rooms/">4-6</a>
-                            <a class="dropdown-item" href="/Admin/Rooms/">7-9</a>
+                            <a class="dropdown-item" href="#"></a>
+                            <a class="dropdown-item" href="#">4-6</a>
+                            <a class="dropdown-item" href="#">7-9</a>
                         </div>
                     </div>
                 </div>
@@ -41,38 +41,29 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h2 class="modal-title text-success" id="addNewModalLabel">Add a new product</h2>
+                                    <h2 class="modal-title text-success" id="addNewModalLabel">Add a new order</h2>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body px-5 my-4">
                                     <div>
-                                        <form action="/adm/add/product" method="post">
+                                        <form action="/adm/add/orders" method="post">
                                             {% csrf_token %}
-                                            <label for="nameRoom">Name:</label>
-                                            <input type="text" class="form-control" name="name" id="name">
-
-                                            <label for="kind">Kind:</label>
-                                            <input type="text" class="form-control" name="kind" id="kind">
-
-                                            <label for="quantity">Quantity:</label>
-                                            <input type="number" class="form-control" name="quantity" id="quantity">
-
-                                            <label for="size">Size:</label>
-                                            <input type="number" class="form-control" name="size" id="size">
-
-                                            <div>
-                                                <label for="description">Description:</label>
-                                                <textarea class="form-control" name="description" id="description"
-                                                    cols="50" rows="3"></textarea>
-                                            </div>
-
+                                            <label for="email">Email:</label>
+                                            <input type="text" class="form-control" name="email" id="edit-email">
+                        
+                                            <label for="phone">Phone:</label>
+                                            <input type="text" class="form-control" name="phone" id="edit-phone">
+                        
+                                            <label for="location">Location:</label>
+                                            <input type="text" class="form-control" name="location" id="edit-location">
+                        
                                             <label for="price">Price:</label>
-                                            <input type="number" class="form-control" name="price" id="price">
-
-                                            <label for="image">Image:</label>
-                                            <input type="text" class="form-control" name="image_url" id="image">
+                                            <input type="number" class="form-control" name="price" id="edit-price">
+                        
+                                            <label for="price">Payment:</label>
+                                            <input type="text" class="form-control" name="price" id="edit-pay_method">
                                     </div>
                                 </div>
                                 <div class="modal-footer mt-4">
@@ -97,51 +88,34 @@
                 <thead class="table-secondary">
                     <tr>
                         <th>#</th>
-                        <th>Name Room</th>
-                        <th>Kind</th>
-                        <th>Quantity</th>
-                        <th>Size</th>
-                        <th>Price</th>
-                        <th>Description</th>
-                        <th>Image</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Payment</th>
+                        <th>Total</th>
+                        <th>Create At</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider" id="bodyRooms">
-                    {% for product in product %}
+                    {% for order in orders %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.kind }}</td>
-                        <td>{{ product.quantity }}</td>
-                        <td>{{ product.size }}</td>
-                        <td>{{ product.price }}</td>
+                        <td>{{ order.email }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>{{order.street_address}}/{{order.district_address}}/{{order.city_address}}</td>
+                        <td>{{ order.pay_method }}</td>
+                        <td>{{ order.sub_total }}</td>
+                        <td>{{ order.modified_at }}</td>
+
                         <td>
-                            <textarea class="description-textarea" cols="20" rows="3" readonly>
-                                    {% if product.description|length > 100 %}
-                                        {{ product.description|slice:":100" }}...
-                                    {% else %}
-                                        {{ product.description }}
-                                    {% endif %}
-                                </textarea>
-                        </td>
-                        <td>
-                            <textarea class="image-url-textarea" rows="3" readonly>
-                                    {% if product.image_url|length > 100 %}
-                                        {{ product.image_url|slice:":100" }}...
-                                    {% else %}
-                                        {{ product.image_url }}
-                                    {% endif %}
-                                </textarea>
-                        </td>
-                        <td>
-                            <a class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal"
-                                data-id="{{ product.id }}" data-name="{{ product.name }}" data-kind="{{ product.kind }}"
-                                data-quantity="{{ product.quantity }}" data-size="{{ product.size }}"
-                                data-price="{{ product.price }}" data-image="{{ product.image_url }}"
-                                data-description="{{ product.description }}">Edit |</a>
-                            <a class="btn-del" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                data-id="{{ product.id }}" data-name="{{ product.name }}">Delete</a>
+                            <a class="btn-edit" data-bs-toggle="modal" data-bs-target="#editOrderModal"
+                                data-id="{{ order.id }}" data-email="{{ order.email }}" data-phone="{{ order.phone }}"
+                                data-address="{{order.street_address}}/{{order.district_address}}/{{order.city_address}}"
+                                data-pay="{{ order.pay_method }}" data-price="{{ order.sub_total }}"
+                                data-day="{{ order.modified_at }}">Edit |</a>
+                            <a class="btn-del" data-bs-toggle="modal" data-bs-target="#deleteOrderModal"
+                            data-id="{{ order.id }}" data-email="{{ order.email }}" data-date="{{ order.modified_at }}">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -154,13 +128,13 @@
 </div>
 
 <!-- The Delete Modal -->
-<div class="modal fade" id="deleteModal">
+<div class="modal fade" id="deleteOrderModal">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Delete confirmation</h4>
+                <h4 class="modal-title">Delete order</h4>
                 <button type="button" class="close" data-bs-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -168,9 +142,9 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form name="deleteForm" method="post">
+                <form name="deleteOrderForm" method="post">
                     {% csrf_token %}
-                    <p>Are you sure delete <strong id="roomName"></strong>?</p>
+                    <p>Are you sure delete <strong id="order-id"></strong> at <strong id="date-order"></strong>?</p>
                     <input type="hidden" name="_method" value="DELETE">
             </div>
 
@@ -186,47 +160,34 @@
 </div>
 
 <!-- The Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
+                <h5 class="modal-title" id="editOrderModalLabel">Edit Order</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form name="editForm" method="post">
+                <form name="editOrderForm" method="post">
                     {% csrf_token %}
-                    <label for="nameRoom">Name:</label>
-                    <input type="text" class="form-control" name="name" id="editname">
+                    <label for="email">Email:</label>
+                    <input type="text" class="form-control" name="email" id="edit-email">
 
-                    <label for="kind">Kind:</label>
-                    <input type="text" class="form-control" name="kind" id="editkind">
+                    <label for="phone">Phone:</label>
+                    <input type="text" class="form-control" name="phone" id="edit-phone">
 
-                    <label for="size">Size:</label>
-                    <input type="number" class="form-control" name="size" id="editsize">
-
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" class="form-control" name="quantity" id="editquantity">
-
-                    <label for="image">Image:</label>
-                    <input type="text" class="form-control" name="image" id="editimage">
-
-                    <div>
-                        <label for="description">Description:</label>
-                        <textarea class="form-control" name="description" id="editdescription" cols="30"
-                            rows="4"></textarea>
-                    </div>
+                    <label for="location">Location:</label>
+                    <input type="text" class="form-control" name="location" id="edit-location">
 
                     <label for="price">Price:</label>
-                    <input type="number" class="form-control" name="price" id="editprice">
+                    <input type="number" class="form-control" name="price" id="edit-price">
 
-                    <label for="status">Status:</label>
-                    <select id="status" class="form-control" name="status">
-                        <option value="1">Available</option>
-                        <option value="0">Unavailable</option>
-                    </select>
+                    <label for="price">Payment:</label>
+                    <input type="text" class="form-control" name="price" id="edit-pay_method">
+
                     <input type="hidden" name="_method" value="PUT">
             </div>
             <div class="modal-footer">
