@@ -1,6 +1,7 @@
 {% extends 'partials/header.html' %}
 {% load static %}
 {% block content %}
+{% csrf_token %}
 <div class="wrapper_detail">
     <div class="container-fluid">
         <div class="row">
@@ -13,10 +14,10 @@
                             <img src="{% static product.image_url|add:'.jpg' %}" class="d-block w-100 fixed-image">
                         </div>
                         <div class="carousel-item">
-                            <img src="{% static '/{{product.image_url}}_2.jpg' %}" class="d-block w-100 fixed-image">
+                            <img src="{% static product.image_url|add:'_2.jpg' %}" class="d-block w-100 fixed-image">
                         </div>
                         <div class="carousel-item">
-                            <img src="{% static '/{{product.image_url}}_3.jpg' %}" class="d-block w-100 fixed-image">
+                            <img src="{% static product.image_url|add:'_3.jpg' %}" class="d-block w-100 fixed-image">
                         </div>
                     </div>
 
@@ -30,13 +31,13 @@
                         <!-- Indicators/dots -->
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#detailCarousel" data-bs-slide-to="0" class="active">
-                                <img src="{% static '/{{product.image_url}}' %}" class="d-block w-100" width="80" height="70">
+                                <img src="{% static product.image_url|add:'.jpg' %}" class="d-block w-100" width="80" height="70">
                             </button>
                             <button type="button" data-bs-target="#detailCarousel" data-bs-slide-to="1">
-                                <img src="{% static '/{{product.image_url}}_2.jpg' %}" class="d-block w-100" width="80" height="70">
+                                <img src="{% static product.image_url|add:'_2.jpg' %}" class="d-block w-100" width="80" height="70">
                             </button>
                             <button type="button" data-bs-target="#detailCarousel" data-bs-slide-to="2">
-                                <img src="{% static '/{{product.image_url}}_3.jpg' %}" class="d-block w-100" width="80" height="70">
+                                <img src="{% static product.image_url|add:'_3.jpg' %}" class="d-block w-100" width="80" height="70">
                             </button>
                         </div>
 
@@ -67,7 +68,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="w-100 mt-5" >
-                            <a class="btnBookStep btn" href="">ADD TO CART</a>
+                            <a class="btnBookStep btn" onclick="addToCart('{{product.slug}}')">ADD TO CART</a>
                         </div>
                     </div>
                     <div class="col-lg-6">
