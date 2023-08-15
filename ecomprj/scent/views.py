@@ -9,9 +9,19 @@ from .models import Product, User, CartItem, Order
 import random
 import string
 
+# Check if user is admin or not
+def is_admin_user(request):
+    user_id = request.session.get('user_id')
+    if user_id:
+        try:
+            user = User.objects.get(id=user_id)
+            return user.email == 'admin'
+        except User.DoesNotExist:
+            return False
+    else:
+        return False
+
 # Generate unique slug
-
-
 def generate_unique_slug(name, max_attempts=10):
     slug = slugify(name)
     unique_slug = slug
@@ -26,15 +36,11 @@ def generate_unique_slug(name, max_attempts=10):
     return unique_slug
 
 # [GET] /
-
-
 def index(request):
 
     return render(request, 'core/index.html')
 
 # [GET] /signup
-
-
 def signup(request):
     if request.method == 'POST':
         # Get data from the form
@@ -82,8 +88,6 @@ def signup(request):
     return render(request, 'core/signup.html')
 
 # [GET] /signin
-
-
 def signin(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -116,15 +120,11 @@ def signin(request):
     return render(request, 'core/signin.html')
 
 # [POST] /logout
-
-
 def logout_view(request):
     logout(request)
     return redirect('/')
 
 # [GET] /cart/:user
-
-
 def cart(request):
     # Truy vấn CartItem từ database
     user_id = request.session.get('user_id')
@@ -159,8 +159,6 @@ def cart(request):
     return render(request, 'core/cart.html', context)
 
 # [POST] /add-to-cart
-
-
 def add_to_cart(request, product_slug, action):
     user_id = request.session.get('user_id')
 
@@ -207,8 +205,6 @@ def add_to_cart(request, product_slug, action):
         return JsonResponse({'error': 'Product not found.'})
 
 # [GET] /product
-
-
 def product(request):
     product = Product.objects.all()
     kind = Product.objects.distinct('kind')
@@ -252,8 +248,6 @@ def product(request):
     })
 
 # [GET] /product/:slug
-
-
 def product_details(request, product_slug):
     try:
         product = Product.objects.get(slug=product_slug)
@@ -263,8 +257,6 @@ def product_details(request, product_slug):
     return render(request, 'core/product_detail.html', {'product': product})
 
 # [GET] /checkout/:user
-
-
 def checkout_product(request):
     # Truy vấn CartItem từ database
     user_id = request.session.get('user_id')
@@ -299,13 +291,10 @@ def checkout_product(request):
     return render(request, 'core/checkout.html', context)
 
 # [GET] result/place_order
-
 def order_result(request):
     return render(request, 'core/order_result.html')
 
 # [POST] add/place_order/:user
-
-
 def place_order(request):
     # Truy vấn CartItem từ database
     user_id = request.session.get('user_id')
@@ -347,24 +336,24 @@ def place_order(request):
     return redirect('/result/place_order')
 
 # [GET] /adm/product
-
-
 def product_management(request):
-    product = Product.objects.all()
+    if is_admin_user(request):
 
-    return render(request, 'admin_core/product.html', {'product': product})
+        product = Product.objects.all()
+
+        return render(request, 'admin_core/product.html', {'product': product})
+    return redirect('/')
 
 # [GET] /adm/customers
-
-
 def customers_management(request):
-    user = User.objects.all()
+    if is_admin_user(request):
 
-    return render(request, 'admin_core/user.html', {'users': user})
+        user = User.objects.all()
+
+        return render(request, 'admin_core/user.html', {'users': user})
+    return redirect('/')
 
 # [DELETE] /adm/delete/customers
-
-
 def delete_customer(request, user_id):
     try:
         user = User.objects.get(id=user_id)
@@ -381,8 +370,6 @@ def delete_customer(request, user_id):
     return redirect('/adm/customers')
 
 # [POST] /adm/add/product
-
-
 def add_product(request):
     if request.method == 'POST':
         # Get data from the form
@@ -412,8 +399,6 @@ def add_product(request):
     return redirect('/adm/product')
 
 # [PUT] /adm/edit/product
-
-
 def edit_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -448,25 +433,25 @@ def edit_product(request, product_id):
     return redirect('/adm/product')
 
 # [DELETE] /adm/delete/product
-
-
 def delete_product(request, product_id):
-    try:
-        product = Product.objects.get(id=product_id)
-    except Product.DoesNotExist:
+    if is_admin_user(request):
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return redirect('/adm/product')
+
+        if request.method == 'POST':
+            # If the _method is "PUT", treat it as a PUT request
+            if request.POST.get('_method') == 'DELETE':
+                # Delete the product
+                product.delete()
+
+        # Redirect to product management
         return redirect('/adm/product')
-
-    if request.method == 'POST':
-        # If the _method is "PUT", treat it as a PUT request
-        if request.POST.get('_method') == 'DELETE':
-            # Delete the product
-            product.delete()
-
-    # Redirect to product management
-    return redirect('/adm/product')
+    return redirect('/')
 
 # [GET] /adm
-
-
 def admin(request):
-    return render(request, 'admin_core/dashboard.html')
+    if is_admin_user(request):
+        return render(request, 'admin_core/dashboard.html')
+    return redirect('/')
