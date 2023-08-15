@@ -369,6 +369,24 @@ def product_management(request):
         return render(request, 'admin_core/product.html', {'product': product})
     return redirect('/')
 
+# [DELETE] /adm/add/order
+def delete_order(request, order_id):
+    if is_admin_user(request):
+        try:
+            order = Order.objects.get(id=order_id)
+        except Order.DoesNotExist:
+            return redirect('/adm/orders')
+
+        if request.method == 'POST':
+            # If the _method is "PUT", treat it as a PUT request
+            if request.POST.get('_method') == 'DELETE':
+                # Delete the Order
+                order.delete()
+
+        # Redirect to product management
+        return redirect('/adm/orders')
+    return redirect('/')
+
 # [GET] /adm/order
 def order_management(request):
     if is_admin_user(request):
